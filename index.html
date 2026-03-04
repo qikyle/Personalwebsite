@@ -110,8 +110,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:grid;grid-template-c
 .stat-label{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-top:6px;}
 
 /* ── CAREER ── */
-.career-item{display:grid;grid-template-columns:180px 1fr 170px;align-items:baseline;gap:32px;padding:26px 0;border-top:1px solid rgba(201,168,76,.08);clip-path:inset(0 100% 0 0);transition:clip-path .65s var(--ease-out);}
-.career-item.visible{clip-path:inset(0 0% 0 0);}
+.career-item{display:grid;grid-template-columns:180px 1fr 170px;align-items:baseline;gap:32px;padding:26px 0;border-top:1px solid rgba(201,168,76,.08);
+  opacity:0;transform:perspective(700px) rotateX(22deg) translateY(28px) scale(.97);
+  transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.career-item.visible{opacity:1;transform:perspective(700px) rotateX(0deg) translateY(0) scale(1);}
 .career-item:last-child{border-bottom:1px solid rgba(201,168,76,.08);}
 .career-co{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
 .career-role{font-size:clamp(17px,1.7vw,22px);font-weight:400;color:var(--ink);letter-spacing:-.01em;}
@@ -125,8 +127,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:grid;grid-template-c
 .t-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
 .chip{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:7px 16px;border:1px solid rgba(192,120,94,.28);color:var(--rose);border-radius:2px;}
 .t-list{display:flex;flex-direction:column;}
-.t-item{display:grid;grid-template-columns:200px 1fr 160px;align-items:baseline;gap:32px;padding:22px 0;border-top:1px solid rgba(192,120,94,.1);opacity:0;transform:translateX(-24px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
-.t-item.visible{opacity:1;transform:translateX(0);}
+.t-item{display:grid;grid-template-columns:200px 1fr 160px;align-items:baseline;gap:32px;padding:22px 0;border-top:1px solid rgba(192,120,94,.1);
+  opacity:0;transform:scale(.82) translateY(24px);transition:opacity .65s var(--spring),transform .65s var(--spring);}
+.t-item.visible{opacity:1;transform:scale(1) translateY(0);}
 .t-item:last-child{border-bottom:1px solid rgba(192,120,94,.1);}
 .t-org{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rose);}
 .t-role{font-size:clamp(15px,1.5vw,19px);font-weight:400;color:var(--ink);letter-spacing:-.01em;}
@@ -158,8 +161,11 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
 /* ── REVEALS ── */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
 .reveal.visible{opacity:1;transform:translateY(0);}
-.glide-right{opacity:0;transform:translateX(28px);transition:opacity .65s var(--ease),transform .65s var(--ease);}
-.glide-right.visible{opacity:1;transform:translateX(0);}
+.glide-right{opacity:0;transform:translateX(28px) scale(.95);transition:opacity .65s var(--ease),transform .65s var(--ease);}
+.glide-right.visible{opacity:1;transform:translateX(0) scale(1);}
+
+/* scroll-zoom sections: will-change set via JS */
+.zoom-section{will-change:transform,opacity;transform-origin:center top;}
 
 @keyframes fade-up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
@@ -224,7 +230,7 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
       <span class="ticker-item">///</span>
       <span class="ticker-item">Minds Matter Bay Area</span>
       <span class="ticker-item">///</span>
-      <span class="ticker-item">UC Berkeley <span class="hl">3.73 GPA</span></span>
+      <span class="ticker-item">UC Berkeley <span class="hl">Class of 2022</span></span>
       <span class="ticker-item">///</span>
       <span class="ticker-item">Forbes Under 30 Scholar</span>
       <span class="ticker-item">///</span>
@@ -242,7 +248,7 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
       <span class="ticker-item">///</span>
       <span class="ticker-item">Minds Matter Bay Area</span>
       <span class="ticker-item">///</span>
-      <span class="ticker-item">UC Berkeley <span class="hl">3.73 GPA</span></span>
+      <span class="ticker-item">UC Berkeley <span class="hl">Class of 2022</span></span>
       <span class="ticker-item">///</span>
       <span class="ticker-item">Forbes Under 30 Scholar</span>
       <span class="ticker-item">///</span>
@@ -271,8 +277,8 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
     <div class="section-label" data-scramble="About">About</div>
     <div class="about-body">
       <div class="about-text" id="about-text">
-        I back <em>AI-native founders</em> rewriting industries &mdash; with a particular lens on
-        Chinese-founded teams building for global markets.
+        I back <em>AI-native founders</em> rewriting industries &mdash;
+        people who see around corners and build with urgency.
         Outside the fund, I&rsquo;ve spent four years teaching kids across SF,
         from preschoolers in Chinatown to high schoolers navigating college applications.
         Both feel like bets on <em>people</em>.
@@ -368,11 +374,10 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
     <div class="edu-row">
       <div>
         <div class="edu-school">UC Berkeley</div>
-        <div class="edu-sub">BA Economics &middot; Minor Data Science &middot; Minor Education &middot; 2022</div>
+        <div class="edu-sub">Economics, Data Science, Education &middot; 2022</div>
         <div class="edu-badge">Forbes Under 30 Scholar</div>
       </div>
       <div class="edu-scores">
-        <div class="score"><strong>3.73</strong> GPA</div>
         <div class="score"><strong>36</strong> ACT</div>
         <div class="score"><strong>335</strong> GRE</div>
       </div>
@@ -687,19 +692,140 @@ document.querySelectorAll('a,.chip').forEach(el=>{
 });
 
 /* ═══════════════════════════════════════════════════
-   12. PARALLAX on content sections
+   12. SCROLL-DRIVEN ZOOM ENGINE
+   Sections continuously scale/fade based on position
 ═══════════════════════════════════════════════════ */
-const paraEls=[
-  {el:document.getElementById('about'),   speed:.025},
-  {el:document.getElementById('career'),  speed:.02},
-  {el:document.getElementById('teaching'),speed:.015},
+const zoomSections = [
+  { id:'about',    scaleEnter:.88, scaleExit:.96, tiltX:4  },
+  { id:'career',   scaleEnter:.85, scaleExit:.97, tiltX:6  },
+  { id:'teaching', scaleEnter:.87, scaleExit:.96, tiltX:3  },
+  { id:'education',scaleEnter:.9,  scaleExit:.97, tiltX:2  },
+  { id:'contact',  scaleEnter:.8,  scaleExit:1,   tiltX:0  },
 ];
-addEventListener('scroll',()=>{
-  paraEls.forEach(({el,speed})=>{
-    const mid=(el.getBoundingClientRect().top+el.getBoundingClientRect().bottom)/2-innerHeight/2;
-    el.style.transform=`translateY(${mid*speed*-1}px)`;
+zoomSections.forEach(s => {
+  const el = document.getElementById(s.id);
+  if (el) { el.classList.add('zoom-section'); s.el = el; }
+});
+
+function lerp(a, b, t){ return a + (b-a)*t; }
+
+function updateZooms(){
+  const vH = innerHeight;
+  zoomSections.forEach(s => {
+    if (!s.el) return;
+    const rect = s.el.getBoundingClientRect();
+    const center = rect.top + rect.height / 2;
+
+    // t: 0=bottom of screen, 0.5=center, 1=top of screen
+    const t = 1 - center / vH;
+
+    let scale, rotX, opacity;
+    if (t < 0.3) {
+      // Entering from bottom — zoom in
+      const p = t / 0.3;
+      const ease = 1 - Math.pow(1-p, 2.5);
+      scale   = lerp(s.scaleEnter, 1, ease);
+      rotX    = lerp(s.tiltX, 0, ease);
+      opacity = lerp(0.3, 1, ease);
+    } else if (t < 0.7) {
+      // In center — full size
+      scale   = 1; rotX = 0; opacity = 1;
+    } else {
+      // Exiting at top — shrink out
+      const p = (t - 0.7) / 0.3;
+      const ease = Math.pow(p, 1.8);
+      scale   = lerp(1, s.scaleExit, ease);
+      rotX    = 0;
+      opacity = lerp(1, 0.55, ease);
+    }
+
+    s.el.style.transform  = `perspective(1200px) rotateX(${rotX}deg) scale(${scale})`;
+    s.el.style.opacity    = opacity;
   });
+}
+addEventListener('scroll', updateZooms, {passive:true});
+updateZooms();
+
+/* ═══════════════════════════════════════════════════
+   13. SCROLL MOMENTUM SKEW
+   Page body gets a subtle skewY proportional to scroll speed
+═══════════════════════════════════════════════════ */
+let lastSY=0, velSY=0, skewTarget=0, skewCurrent=0;
+const pageBody=document.querySelector('.page-body');
+addEventListener('scroll',()=>{
+  velSY = scrollY - lastSY;
+  lastSY = scrollY;
+  skewTarget = Math.max(-1.8, Math.min(1.8, velSY * -0.06));
 },{passive:true});
+(function skewLoop(){
+  skewCurrent += (skewTarget - skewCurrent) * .12;
+  skewTarget   *= .82; // decay when not scrolling
+  pageBody.style.transform = `skewY(${skewCurrent.toFixed(3)}deg)`;
+  requestAnimationFrame(skewLoop);
+})();
+
+/* ═══════════════════════════════════════════════════
+   14. STAT NUMBERS — zoom-punch entrance
+═══════════════════════════════════════════════════ */
+const statRows = document.querySelectorAll('.stat-row');
+statRows.forEach((row, i) => {
+  row.style.cssText += ';opacity:0;transform:scale(.7) translateY(20px);transition:opacity .5s var(--spring),transform .5s var(--spring)';
+  row.style.transitionDelay = (i * 90) + 'ms';
+});
+const statIO = new IntersectionObserver(es => {
+  es.forEach(e => {
+    if(e.isIntersecting){
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'scale(1) translateY(0)';
+      statIO.unobserve(e.target);
+    }
+  });
+},{threshold:.3});
+statRows.forEach(el => statIO.observe(el));
+
+/* ═══════════════════════════════════════════════════
+   15. SECTION LABEL — horizontal slide-in
+═══════════════════════════════════════════════════ */
+document.querySelectorAll('.section-label').forEach(el => {
+  el.style.cssText += ';opacity:0;transform:translateX(-30px);transition:opacity .6s var(--ease),transform .6s var(--ease)';
+});
+const lblSlideIO = new IntersectionObserver(es => {
+  es.forEach(e => {
+    if(e.isIntersecting){
+      e.target.style.opacity='1'; e.target.style.transform='translateX(0)';
+      lblSlideIO.unobserve(e.target);
+    }
+  });
+},{threshold:.4});
+document.querySelectorAll('.section-label').forEach(el => lblSlideIO.observe(el));
+
+/* ═══════════════════════════════════════════════════
+   16. TEACHING HEADLINE — large-text zoom
+═══════════════════════════════════════════════════ */
+const tHl = document.querySelector('.teaching-hl');
+if(tHl){
+  tHl.style.cssText += ';opacity:0;transform:scale(.78) translateY(32px);transition:opacity .8s var(--spring),transform .8s var(--spring)';
+  const tHlIO = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='scale(1) translateY(0)';tHlIO.unobserve(e.target);}
+    });
+  },{threshold:.2});
+  tHlIO.observe(tHl);
+}
+
+/* ═══════════════════════════════════════════════════
+   17. CONTACT — explosive scale-in
+═══════════════════════════════════════════════════ */
+const cBig = document.querySelector('.contact-big');
+if(cBig){
+  cBig.style.cssText += ';opacity:0;transform:scale(.55);transition:opacity .9s var(--spring),transform .9s var(--spring)';
+  const cIO = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='scale(1)';cIO.unobserve(e.target);}
+    });
+  },{threshold:.15});
+  cIO.observe(cBig);
+}
 </script>
 </body>
 </html>
