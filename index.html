@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kyle Qi</title>
+  <meta name="description" content="Kyle Qi — Investor at Llama Ventures. Backing Chinese-founded AI companies building for the world." />
+
+  <style>
+    /* ─── Reset ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    /* ─── Tokens ─────────────────────────────────────────────── */
+    :root {
+      --navy:      #0a0f1e;
+      --navy-mid:  #111827;
+      --navy-soft: #1a2540;
+      --slate:     #2d3a52;
+      --mist:      #8899bb;
+      --cream:     #f0ece3;
+      --cream-dim: #c9c2b4;
+      --gold:      #c9a96e;
+      --gold-dim:  #8a6f3e;
+      --white:     #ffffff;
+
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+      --gap: clamp(60px, 10vw, 120px);
+      --col: min(1100px, 92vw);
+    }
+
+    /* ─── Base ───────────────────────────────────────────────── */
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    ::selection { background: var(--gold); color: var(--navy); }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── Fonts (Google) ─────────────────────────────────────── */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    /* ─── Grain overlay ─────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ─── Nav ────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 24px clamp(24px, 5vw, 60px);
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid transparent;
+      transition: border-color .4s, background .4s;
+    }
+    nav.scrolled {
+      background: rgba(10,15,30,0.85);
+      backdrop-filter: blur(16px);
+      border-color: rgba(255,255,255,0.06);
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex; gap: 36px; list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      color: var(--mist);
+      text-transform: uppercase;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--cream); }
+
+    /* ─── Section wrapper ───────────────────────────────────── */
+    section {
+      width: 100%; padding: var(--gap) clamp(24px, 5vw, 60px);
+      display: flex; justify-content: center;
+    }
+    .inner { width: 100%; max-width: var(--col); }
+
+    /* ─── HERO ────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      align-items: center;
+      padding-top: 100px;
+      position: relative;
+    }
+    .hero-inner {
+      width: 100%; max-width: var(--col);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: calc(100svh - 100px);
+    }
+
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp .8s .2s forwards;
+    }
+    .hero-label::before {
+      content: '';
+      display: block; width: 28px; height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-headline {
+      font-size: clamp(52px, 9vw, 120px);
+      font-weight: 600;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: var(--cream);
+      opacity: 0;
+      animation: fadeUp .9s .35s forwards;
+    }
+    .hero-headline em {
+      font-style: normal;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--cream-dim);
+    }
+
+    .hero-bottom {
+      padding-top: 64px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp .9s .55s forwards;
+    }
+    .hero-desc {
+      font-size: clamp(15px, 1.8vw, 18px);
+      color: var(--mist);
+      max-width: 480px;
+      line-height: 1.65;
+    }
+    .hero-desc strong { color: var(--cream); font-weight: 500; }
+    .hero-cta {
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px;
+      font-size: 13px; font-weight: 500; letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: all .25s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+      border: 1px solid var(--gold);
+    }
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--gold);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--cream);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-ghost:hover {
+      border-color: var(--cream);
+    }
+
+    /* scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 36px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0;
+      animation: fadeUp .8s 1.1s forwards;
+    }
+    .scroll-hint span {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s 1.5s infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.1); }
+    }
+
+    /* ─── SECTION LABEL ─────────────────────────────────────── */
+    .sec-label {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 48px;
+    }
+    .sec-label::before {
+      content: '';
+      display: block; width: 20px; height: 1px;
+      background: var(--gold);
+    }
+    .sec-number {
+      color: var(--slate); margin-right: 2px;
+    }
+
+    /* ─── ABOUT ──────────────────────────────────────────────── */
+    #about { background: var(--navy); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    @media (max-width: 760px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+    .about-left h2 {
+      font-size: clamp(32px, 4.5vw, 54px);
+      font-weight: 600; letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 28px;
+    }
+    .about-left h2 span { color: var(--gold); }
+    .about-left p {
+      font-size: 16px; color: var(--mist); line-height: 1.75;
+      margin-bottom: 20px;
+    }
+    .about-left p strong { color: var(--cream); font-weight: 500; }
+
+    .about-right { padding-top: 16px; }
+    .stat-row {
+      display: flex; flex-direction: column;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 24px 0;
+    }
+    .stat-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .stat-num {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 600; letter-spacing: -0.03em;
+      color: var(--cream); line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-num sup { font-size: 0.45em; color: var(--gold); vertical-align: super; }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--mist);
+    }
+
+    /* ─── THESIS ──────────────────────────────────────────────── */
+    #thesis { background: var(--navy-mid); }
+    .thesis-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      flex-wrap: wrap; gap: 24px;
+      margin-bottom: 64px;
+    }
+    .thesis-header h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 600; letter-spacing: -0.025em; line-height: 1.1;
+      max-width: 520px;
+    }
+    .thesis-header p {
+      font-size: 14px; color: var(--mist); max-width: 320px; line-height: 1.7;
+    }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    @media (max-width: 760px) { .pillars { grid-template-columns: 1fr; } }
+    .pillar {
+      background: var(--navy-soft);
+      padding: 40px 32px;
+      transition: background .3s;
+      position: relative; overflow: hidden;
+    }
+    .pillar::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .4s cubic-bezier(.4,0,.2,1);
+    }
+    .pillar:hover { background: var(--slate); }
+    .pillar:hover::after { transform: scaleX(1); }
+
+    .pillar-num {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .pillar h3 {
+      font-size: 20px; font-weight: 600; letter-spacing: -0.01em;
+      color: var(--cream); margin-bottom: 16px; line-height: 1.2;
+    }
+    .pillar p {
+      font-size: 14px; color: var(--mist); line-height: 1.7;
+    }
+
+    /* ─── PORTFOLIO ───────────────────────────────────────────── */
+    #portfolio { background: var(--navy); }
+    .portfolio-intro {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; flex-wrap: wrap; gap: 24px;
+      margin-bottom: 56px;
+    }
+    .portfolio-intro h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 600; letter-spacing: -0.025em;
+    }
+    .portfolio-intro p { font-size: 14px; color: var(--mist); max-width: 300px; }
+
+    .companies {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+    @media (max-width: 660px) { .companies { grid-template-columns: 1fr; } }
+
+    .company-card {
+      background: var(--navy-mid);
+      padding: 32px 28px;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: background .25s;
+      position: relative; overflow: hidden;
+      cursor: default;
+    }
+    .company-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--gold);
+      transition: height .35s ease;
+    }
+    .company-card:hover { background: var(--navy-soft); }
+    .company-card:hover::before { height: 100%; }
+
+    .company-top {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .company-name {
+      font-size: 18px; font-weight: 600; color: var(--cream);
+    }
+    .company-stage {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--gold);
+      background: rgba(201,169,110,0.1);
+      padding: 3px 10px; border-radius: 2px;
+    }
+    .company-sector {
+      font-size: 12px; color: var(--mist); letter-spacing: 0.04em;
+    }
+    .company-desc {
+      font-size: 14px; color: var(--mist); line-height: 1.6;
+    }
+
+    /* ─── FOCUS ───────────────────────────────────────────────── */
+    #focus { background: var(--navy-soft); }
+    .focus-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: center;
+    }
+    @media (max-width: 760px) { .focus-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+    .focus-left h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 600; letter-spacing: -0.025em; line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .focus-left h2 em {
+      font-style: normal; color: var(--gold);
+    }
+    .focus-left p {
+      font-size: 15px; color: var(--mist); line-height: 1.75; margin-bottom: 16px;
+    }
+    .focus-left p strong { color: var(--cream); font-weight: 500; }
+
+    .criteria-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .criteria-list li {
+      background: var(--navy-mid);
+      padding: 20px 24px;
+      display: flex; gap: 16px; align-items: flex-start;
+      transition: background .25s;
+    }
+    .criteria-list li:hover { background: var(--slate); }
+    .crit-icon {
+      width: 20px; height: 20px; flex-shrink: 0;
+      background: rgba(201,169,110,0.15);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+    .crit-icon::after {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%; background: var(--gold);
+    }
+    .crit-text strong {
+      display: block;
+      font-size: 14px; font-weight: 500; color: var(--cream);
+      margin-bottom: 4px;
+    }
+    .crit-text span {
+      font-size: 13px; color: var(--mist);
+    }
+
+    /* ─── APPROACH ────────────────────────────────────────────── */
+    #approach { background: var(--navy-mid); }
+    .approach-header {
+      margin-bottom: 64px;
+    }
+    .approach-header h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 600; letter-spacing: -0.025em; line-height: 1.1;
+      max-width: 620px;
+    }
+
+    .timeline {
+      display: flex; flex-direction: column; gap: 0;
+      border-left: 1px solid rgba(255,255,255,0.07);
+      padding-left: 40px; margin-left: 12px;
+    }
+    .timeline-item {
+      position: relative; padding-bottom: 48px;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item::before {
+      content: '';
+      position: absolute; left: -47px; top: 4px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--navy-soft);
+      border: 2px solid var(--slate);
+      transition: border-color .3s, background .3s;
+    }
+    .timeline-item:hover::before {
+      border-color: var(--gold);
+      background: var(--gold);
+    }
+    .step-label {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .step-title {
+      font-size: 20px; font-weight: 600; color: var(--cream);
+      margin-bottom: 10px; letter-spacing: -0.01em;
+    }
+    .step-desc {
+      font-size: 14px; color: var(--mist); line-height: 1.75;
+      max-width: 540px;
+    }
+
+    /* ─── BACKGROUND ─────────────────────────────────────────── */
+    #background { background: var(--navy); }
+    .bg-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+    }
+    @media (max-width: 760px) { .bg-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+    .bg-left h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 600; letter-spacing: -0.025em; line-height: 1.1;
+      margin-bottom: 28px;
+    }
+    .bg-left p {
+      font-size: 15px; color: var(--mist); line-height: 1.75; margin-bottom: 18px;
+    }
+    .bg-left p strong { color: var(--cream); font-weight: 500; }
+
+    .experience-list { list-style: none; }
+    .exp-item {
+      padding: 28px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: grid; grid-template-columns: 1fr auto; gap: 16px;
+    }
+    .exp-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .exp-role {
+      font-size: 16px; font-weight: 500; color: var(--cream); margin-bottom: 4px;
+    }
+    .exp-company {
+      font-size: 14px; color: var(--mist);
+    }
+    .exp-year {
+      font-family: var(--font-mono);
+      font-size: 11px; color: var(--gold); letter-spacing: 0.08em;
+      padding-top: 4px; white-space: nowrap;
+    }
+
+    /* ─── CONTACT ─────────────────────────────────────────────── */
+    #contact {
+      background: var(--navy-soft);
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .contact-inner { text-align: center; max-width: 600px; margin: 0 auto; }
+    .contact-inner h2 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 600; letter-spacing: -0.03em; line-height: 1.05;
+      margin-bottom: 24px;
+    }
+    .contact-inner h2 span { color: var(--gold); }
+    .contact-inner p {
+      font-size: 16px; color: var(--mist); line-height: 1.7; margin-bottom: 40px;
+    }
+    .contact-links {
+      display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────────────── */
+    footer {
+      padding: 28px clamp(24px, 5vw, 60px);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-left {
+      font-family: var(--font-mono);
+      font-size: 12px; color: var(--mist); letter-spacing: 0.06em;
+    }
+    .footer-right {
+      font-size: 12px; color: var(--slate);
+    }
+
+    /* ─── ANIMATIONS ─────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1; transform: translateY(0);
+    }
+
+    /* ─── Stagger children ───────────────────────────────────── */
+    .stagger > * {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:.05s; }
+    .stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:.12s; }
+    .stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:.20s; }
+    .stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:.28s; }
+    .stagger.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay:.36s; }
+    .stagger.visible > *:nth-child(6) { opacity:1; transform:none; transition-delay:.44s; }
+    .stagger.visible > *:nth-child(7) { opacity:1; transform:none; transition-delay:.52s; }
+    .stagger.visible > *:nth-child(8) { opacity:1; transform:none; transition-delay:.60s; }
+
+    /* ─── MOBILE NAV ─────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ───────────────────────────────────────────────────────── -->
+  <nav id="nav">
+    <div class="nav-logo">Kyle Qi</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#thesis">Thesis</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO ──────────────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-label">Investor · Llama Ventures</div>
+        <h1 class="hero-headline">
+          Backing<br>
+          the <em>builders</em><br>
+          who move<br>
+          the world.
+        </h1>
+      </div>
+      <div class="hero-bottom">
+        <p class="hero-desc">
+          I back <strong>Chinese-founded AI companies</strong> building products
+          for global markets — from seed through Series A. Based in San Francisco.
+          Partner at <strong>Llama Ventures</strong>.
+        </p>
+        <div class="hero-cta">
+          <a href="mailto:kyle@llamaventures.vc" class="btn btn-primary">Get in touch</a>
+          <a href="#thesis" class="btn btn-ghost">My thesis</a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ──────────────────────────────────────────────────────── -->
+  <section id="about">
+    <div class="inner">
+      <div class="sec-label"><span class="sec-number">01 /</span> About</div>
+      <div class="about-grid">
+        <div class="about-left reveal">
+          <h2>Investing at the intersection of <span>AI and ambition.</span></h2>
+          <p>
+            I spend my days meeting with founders who are <strong>quietly building things
+            that will matter</strong> — AI applications, developer tools, and global consumer
+            products with Chinese supply-chain advantages.
+          </p>
+          <p>
+            Before Llama Ventures, I was embedded in the startup ecosystem across the US
+            and China, studying how the best companies grow from zero to something
+            that changes an industry.
+          </p>
+          <p>
+            Outside of work: tennis, reading, and convincing myself I'll pick up Mandarin
+            for real this time.
+          </p>
+        </div>
+        <div class="about-right stagger">
+          <div class="stat-row">
+            <div class="stat-num">$50<sup>M+</sup></div>
+            <div class="stat-label">AUM across fund portfolio</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-num">20<sup>+</sup></div>
+            <div class="stat-label">Portfolio companies</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-num">Seed<span style="font-size:0.5em;color:var(--gold)"> — </span>A</div>
+            <div class="stat-label">Investment stage focus</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-num">SF</div>
+            <div class="stat-label">Based in San Francisco, CA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── THESIS ─────────────────────────────────────────────────────── -->
+  <section id="thesis">
+    <div class="inner">
+      <div class="sec-label"><span class="sec-number">02 /</span> Thesis</div>
+      <div class="thesis-header reveal">
+        <h2>Why Chinese founders.<br>Why global markets.<br>Why now.</h2>
+        <p>Three converging forces make this the most important moment to be investing at this intersection.</p>
+      </div>
+      <div class="pillars stagger">
+        <div class="pillar">
+          <div class="pillar-num">01</div>
+          <h3>AI-Native from Day One</h3>
+          <p>The best Chinese technical founders don't bolt AI onto existing products — they architect around it from the start. That changes the unit economics, the moat, and the ceiling.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02</div>
+          <h3>Global Market Ambition</h3>
+          <p>The founders I back are building for San Francisco and Singapore, not Shenzhen. They understand that the biggest TAMs are outside China, and they're willing to move to capture them.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03</div>
+          <h3>Supply-Chain Leverage</h3>
+          <p>For hardware and consumer products, Chinese supply chains offer a 3–10x cost advantage that US competitors can't easily replicate. That's a structural moat hiding in plain sight.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PORTFOLIO ──────────────────────────────────────────────────── -->
+  <section id="portfolio">
+    <div class="inner">
+      <div class="sec-label"><span class="sec-number">03 /</span> Portfolio</div>
+      <div class="portfolio-intro reveal">
+        <h2>Selected investments.</h2>
+        <p>A few companies I've had the chance to back. Each one is solving a real problem, not a manufactured one.</p>
+      </div>
+      <div class="companies stagger">
+        <div class="company-card">
+          <div class="company-top">
+            <div class="company-name">WorkDuo</div>
+            <div class="company-stage">Seed</div>
+          </div>
+          <div class="company-sector">AI · Enterprise Productivity</div>
+          <div class="company-desc">AI copilot for knowledge workers — reducing the overhead of coordination and letting teams focus on what actually moves the needle.</div>
+        </div>
+        <div class="company-card">
+          <div class="company-top">
+            <div class="company-name">Tuuli</div>
+            <div class="company-stage">Seed</div>
+          </div>
+          <div class="company-sector">AI · Consumer</div>
+          <div class="company-desc">Personalized AI for everyday decisions. Building the kind of product people describe to their friends the day after they find it.</div>
+        </div>
+        <div class="company-card">
+          <div class="company-top">
+            <div class="company-name">Grupa.AI</div>
+            <div class="company-stage">Seed</div>
+          </div>
+          <div class="company-sector">AI · Collaboration</div>
+          <div class="company-desc">Rethinking how teams think together — with AI that surfaces the right context at the right moment, rather than adding another tab to manage.</div>
+        </div>
+        <div class="company-card">
+          <div class="company-top">
+            <div class="company-name">Kollegio</div>
+            <div class="company-stage">Pre-Seed</div>
+          </div>
+          <div class="company-sector">AI · Education</div>
+          <div class="company-desc">Making the kind of academic guidance that used to require expensive consultants accessible to every student, everywhere.</div>
+        </div>
+        <div class="company-card">
+          <div class="company-top">
+            <div class="company-name">+ More</div>
+            <div class="company-stage">Various</div>
+          </div>
+          <div class="company-sector">AI · Consumer · Supply Chain</div>
+          <div class="company-desc">A growing portfolio of companies spanning AI applications, global consumer, and hardware — many still in stealth.</div>
+        </div>
+        <div class="company-card" style="background: rgba(201,169,110,0.04); border: 1px dashed rgba(201,169,110,0.2);">
+          <div class="company-name" style="color:var(--gold)">Building something?</div>
+          <div class="company-sector">Chinese-founded · AI-native · Global ambition</div>
+          <div class="company-desc">If this is you, I'd genuinely like to hear about it. The bar is high but the conversation is always worth having.</div>
+          <a href="mailto:kyle@llamaventures.vc" class="btn btn-ghost" style="margin-top:8px; width:fit-content; font-size:12px; padding:10px 20px;">Reach out →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOCUS ──────────────────────────────────────────────────────── -->
+  <section id="focus">
+    <div class="inner">
+      <div class="sec-label"><span class="sec-number">04 /</span> What I Look For</div>
+      <div class="focus-grid">
+        <div class="focus-left reveal">
+          <h2>The founders I back share <em>a few things.</em></h2>
+          <p>
+            It's less about the deck and more about the person. I want to understand
+            <strong>why you, why now, and why this</strong> — and I want the answer
+            to be one I couldn't have predicted.
+          </p>
+          <p>
+            I prioritize depth over breadth. I'd rather have a small number of
+            portfolio companies I'm genuinely useful to than a large number I
+            barely know.
+          </p>
+        </div>
+        <ul class="criteria-list reveal">
+          <li>
+            <div class="crit-icon"></div>
+            <div class="crit-text">
+              <strong>Chinese founding team</strong>
+              <span>Core technical or product background. One-line tech experience isn't enough — show me what you've actually built.</span>
+            </div>
+          </li>
+          <li>
+            <div class="crit-icon"></div>
+            <div class="crit-text">
+              <strong>Product already live</strong>
+              <span>At minimum an MVP with real users or early customers. Preference for teams who've already found their first paying customer.</span>
+            </div>
+          </li>
+          <li>
+            <div class="crit-icon"></div>
+            <div class="crit-text">
+              <strong>US-committed</strong>
+              <span>Building for global markets means committing to the hardest ones. I want founders who are in — or actively moving — to the US.</span>
+            </div>
+          </li>
+          <li>
+            <div class="crit-icon"></div>
+            <div class="crit-text">
+              <strong>Seed to Series A</strong>
+              <span>I lead and participate in rounds from $500K to $5M. Too early I can't add enough; too late and I'm not the right partner.</span>
+            </div>
+          </li>
+          <li>
+            <div class="crit-icon"></div>
+            <div class="crit-text">
+              <strong>AI-native or supply-chain edge</strong>
+              <span>Either AI is the product (not a feature), or your supply-chain access creates a cost advantage that compounds over time.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── APPROACH ───────────────────────────────────────────────────── -->
+  <section id="approach">
+    <div class="inner">
+      <div class="sec-label"><span class="sec-number">05 /</span> How I Work</div>
+      <div class="approach-header reveal">
+        <h2>Fast opinions. Real support. Honest feedback.</h2>
+      </div>
+      <div class="timeline stagger">
+        <div class="timeline-item">
+          <div class="step-label">First Meeting</div>
+          <div class="step-title">One conversation, one week turnaround.</div>
+          <div class="step-desc">I commit to giving you a clear signal within a week of our first meeting — either moving forward, or telling you honestly why not. I don't ghost, and I don't run indefinitely slow processes.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="step-label">Due Diligence</div>
+          <div class="step-title">I go deep, not wide.</div>
+          <div class="step-desc">My diligence is product-first. I want to understand how your thing works, why it's better, and what breaks it — before we talk about market size or exit multiples.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="step-label">Post-Investment</div>
+          <div class="step-title">Available when it matters.</div>
+          <div class="step-desc">I don't pretend to know your business better than you do. But when you're facing a hard decision — hiring, pricing, co-investors, pivots — I want to be the first call, not the last.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="step-label">Network</div>
+          <div class="step-title">Warm introductions, not empty connections.</div>
+          <div class="step-desc">I make introductions selectively and specifically. When I connect you to someone, it's because I genuinely believe both sides will get something real from it.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BACKGROUND ─────────────────────────────────────────────────── -->
+  <section id="background">
+    <div class="inner">
+      <div class="sec-label"><span class="sec-number">06 /</span> Background</div>
+      <div class="bg-grid">
+        <div class="bg-left reveal">
+          <h2>Where I come from.</h2>
+          <p>I grew up between cultures — which is part of why I find myself drawn to founders who are doing the same thing professionally. <strong>Building for a market that isn't the one you grew up in is hard</strong>, and I have a lot of respect for the people who choose to do it anyway.</p>
+          <p>Llama Ventures was founded on the conviction that the next generation of category-defining AI companies will be built by technical Chinese founders who understand both sides of the Pacific. I believe that more now than when we started.</p>
+        </div>
+        <div class="bg-right reveal">
+          <ul class="experience-list">
+            <li class="exp-item">
+              <div>
+                <div class="exp-role">Investor</div>
+                <div class="exp-company">Llama Ventures · San Francisco, CA</div>
+              </div>
+              <div class="exp-year">2024 — Now</div>
+            </li>
+            <li class="exp-item">
+              <div>
+                <div class="exp-role">Venture Fellow</div>
+                <div class="exp-company">Early-Stage VC · San Francisco, CA</div>
+              </div>
+              <div class="exp-year">2023 — 2024</div>
+            </li>
+            <li class="exp-item">
+              <div>
+                <div class="exp-role">Startup Ecosystem</div>
+                <div class="exp-company">Operator + Advisor roles · US & China</div>
+              </div>
+              <div class="exp-year">2021 — 2023</div>
+            </li>
+            <li class="exp-item">
+              <div>
+                <div class="exp-role">University</div>
+                <div class="exp-company">Economics / Computer Science</div>
+              </div>
+              <div class="exp-year">— 2021</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ────────────────────────────────────────────────────── -->
+  <section id="contact">
+    <div class="inner">
+      <div class="contact-inner">
+        <div class="sec-label" style="justify-content:center; margin-bottom:32px;"><span class="sec-number">07 /</span> Contact</div>
+        <h2 class="reveal">Let's talk about <span>what you're building.</span></h2>
+        <p class="reveal">The best first meetings start with a direct email. Tell me what you're building, where you are, and what you're looking for. I read everything.</p>
+        <div class="contact-links reveal">
+          <a href="mailto:kyle@llamaventures.vc" class="btn btn-primary">kyle@llamaventures.vc</a>
+          <a href="https://twitter.com/" target="_blank" class="btn btn-ghost">Twitter / X</a>
+          <a href="https://linkedin.com/in/" target="_blank" class="btn btn-ghost">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-left">© 2026 Kyle Qi · Llama Ventures</div>
+    <div class="footer-right">San Francisco, CA</div>
+  </footer>
+
+  <!-- ── SCRIPTS ────────────────────────────────────────────────────── -->
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // Intersection Observer for reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
+
+    // Subtle cursor glow (desktop only)
+    if (window.matchMedia('(pointer: fine)').matches) {
+      const glow = document.createElement('div');
+      glow.style.cssText = `
+        position:fixed; width:320px; height:320px; border-radius:50%;
+        background:radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%);
+        pointer-events:none; z-index:999; transform:translate(-50%,-50%);
+        transition: left .12s ease, top .12s ease;
+      `;
+      document.body.appendChild(glow);
+      document.addEventListener('mousemove', e => {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top  = e.clientY + 'px';
+      }, { passive: true });
+    }
+  </script>
+
+</body>
+</html>
