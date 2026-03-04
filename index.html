@@ -184,7 +184,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
   );
   background-size:300% 300%;
   animation:holo-drift 10s ease-in-out infinite;
-  pointer-events:none;z-index:0;
+  pointer-events:none;z-index:-1;
 }
 @keyframes holo-drift{
   0%,100%{background-position:0% 0%;}
@@ -207,7 +207,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
   );
   transform:rotate(-45deg) translateY(-120%);
   transition:transform 1.1s cubic-bezier(.4,0,.2,1),opacity .25s;
-  opacity:0;pointer-events:none;z-index:0;
+  opacity:0;pointer-events:none;z-index:-1;
 }
 .about-text:hover::after{opacity:1;transform:rotate(-45deg) translateY(120%);}
 /* Iridescent glow border on hover */
@@ -221,11 +221,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
     inset 0 1px 0 rgba(255,255,255,.07),
     inset 0 -1px 0 rgba(221,184,74,.05);
 }
-/* Text above holographic layers */
-.about-text .w{display:inline-block;opacity:.1;transform:translateY(8px);transition:opacity .4s var(--ease),transform .4s var(--ease);position:relative;z-index:1;}
-.about-text .w.lit{opacity:1;transform:translateY(0);}
-.about-text em{font-style:italic;color:var(--gold);position:relative;z-index:1;}
-.about-text em a{color:inherit;text-decoration:none;position:relative;display:inline-block;z-index:1;}
+/* Text above holographic layers — no z-index needed; isolation:isolate on parent keeps ::before/::after behind at z-index:-1 */
+.about-text .w{display:inline-block;opacity:.1;transition:opacity .5s var(--ease);}
+.about-text .w.lit{opacity:1;}
+.about-text em{font-style:italic;color:var(--gold);}
+.about-text em a{color:inherit;text-decoration:none;display:inline-block;}
 .about-text em a::before,.about-text em a::after{
   content:'';position:absolute;width:100%;height:1.5px;
   background:linear-gradient(to right,var(--gold),var(--rose));
@@ -264,7 +264,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
   );
   background-size:300% 300%;
   animation:holo-drift 12s ease-in-out 3s infinite;
-  pointer-events:none;z-index:0;
+  pointer-events:none;z-index:-1;
 }
 /* Hover sweep — blue-led variant */
 .about-stats::after{
@@ -282,7 +282,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
   );
   transform:rotate(-45deg) translateY(-120%);
   transition:transform 1.1s cubic-bezier(.4,0,.2,1),opacity .25s;
-  opacity:0;pointer-events:none;z-index:0;
+  opacity:0;pointer-events:none;z-index:-1;
 }
 .about-stats:hover::after{opacity:1;transform:rotate(-45deg) translateY(120%);}
 .about-stats:hover{
@@ -295,18 +295,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
     inset 0 1px 0 rgba(255,255,255,.07),
     inset 0 -1px 0 rgba(126,184,255,.04);
 }
-/* Content above holographic layers */
-.about-stats .stat-row,.about-stats .stat-num,.about-stats .stat-label,.about-stats .stat-bar{position:relative;z-index:1;}
+/* Content above holographic layers — z-index:-1 on ::before/::after handles stacking */
 .stat-row{border-top:1px solid rgba(221,184,74,.1);padding-top:18px;opacity:0;transform:scale(.7) translateY(18px);transition:opacity .55s var(--spring),transform .55s var(--spring);}
 .stat-row.visible{opacity:1;transform:scale(1) translateY(0);}
 .stat-num{
   font-size:clamp(28px,3.5vw,52px);font-weight:600;line-height:1;
   letter-spacing:-.02em;font-variant-numeric:tabular-nums;
-  /* gradient text + shimmer sweep */
+  /* gradient text — shimmer only activates once row is visible */
   background:linear-gradient(100deg,var(--gold) 0%,var(--gold2) 28%,#fff9e6 50%,var(--gold2) 72%,var(--rose) 100%);
   background-size:240% 100%;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:stat-shimmer 4s ease-in-out infinite;
   filter:drop-shadow(0 0 14px rgba(221,184,74,.0));
 }
 .stat-row.visible .stat-num{
@@ -768,23 +766,15 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
 .t-item:hover{background:rgba(200,128,106,.04);}
 .t-item:hover .t-role{color:var(--rose);transition:color .2s;}
 
-/* ── SCORE / STAT BARS glow after fill ── */
-@keyframes bar-glow{
-  from{box-shadow:none;}
-  to{box-shadow:0 0 8px rgba(221,184,74,.4),0 0 18px rgba(221,184,74,.15);}
-}
-.score-fill{animation:bar-glow 1.4s var(--ease-out) 1.2s forwards;}
-.stat-bar-fill{animation:bar-glow 1.5s var(--ease-out) 1.4s forwards;}
+/* bar-glow removed — was firing on every page load even off-screen */
+.score-fill:hover,.stat-bar-fill:hover{box-shadow:0 0 8px rgba(221,184,74,.35);}
 
 /* ── CONTACT LINKS arrow nudge ── */
 .contact-link{position:relative;transition:color .2s,letter-spacing .3s var(--ease);}
 .contact-link:hover{color:var(--gold);letter-spacing:.2em;}
 
-/* ── TICKER items flash on random interval (via CSS animation stagger) ── */
-@keyframes ticker-flash{0%,90%,100%{color:var(--ink3);}95%{color:var(--gold2);}}
-.ticker-item:nth-child(3n+1){animation:ticker-flash 7s ease-in-out 1s infinite;}
-.ticker-item:nth-child(3n+2){animation:ticker-flash 7s ease-in-out 3.5s infinite;}
-.ticker-item:nth-child(3n+3){animation:ticker-flash 7s ease-in-out 6s infinite;}
+/* ticker-flash removed — was spawning 26 concurrent animations */
+.ticker-item:hover{color:var(--gold2);transition:color .2s;}
 
 @keyframes fade-up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
@@ -1571,6 +1561,22 @@ const revIO=new IntersectionObserver(es=>{
 document.querySelectorAll(
   '.reveal,.thesis-card,.career-item,.t-item,.edu-row,.glide-right,.stat-row,.section-label,.teaching-hl,.contact-big,.hobby-card'
 ).forEach(el=>revIO.observe(el));
+
+/* ── IO FALLBACK: if IntersectionObserver never fires (hidden tab, old browser,
+   or element already in view on load), force-reveal after 1.8 s ── */
+setTimeout(()=>{
+  document.querySelectorAll(
+    '.reveal,.thesis-card,.career-item,.t-item,.edu-row,.glide-right,.stat-row,.section-label,.teaching-hl,.contact-big,.hobby-card'
+  ).forEach(el=>{
+    if(!el.classList.contains('visible')){
+      el.classList.add('visible');
+      if(el.classList.contains('stat-row')){
+        const fill=el.querySelector('.stat-bar-fill');
+        if(fill) setTimeout(()=>{ fill.style.width=fill.dataset.width+'%'; },200);
+      }
+    }
+  });
+},1800);
 
 /* ══════════════════════════════════════════════
    SECTION DOTS
