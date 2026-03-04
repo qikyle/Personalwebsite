@@ -333,6 +333,7 @@ nav{
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  margin-top: 28px;
 }
 .chip{
   font-size: .68rem;
@@ -342,6 +343,39 @@ nav{
   border: 1px solid rgba(196,128,106,.3);
   color: var(--rose);
   border-radius: 2px;
+}
+/* Teaching role list */
+.t-list{ display:flex; flex-direction:column; }
+.t-item{
+  display: grid;
+  grid-template-columns: 200px 1fr 160px;
+  align-items: baseline;
+  gap: 32px;
+  padding: 24px 0;
+  border-top: 1px solid rgba(196,128,106,.12);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s var(--ease), transform .6s var(--ease);
+}
+.t-item.visible{ opacity:1; transform:translateY(0); }
+.t-item:last-child{ border-bottom: 1px solid rgba(196,128,106,.12); }
+.t-org{
+  font-size: .7rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--rose);
+}
+.t-role{
+  font-size: clamp(16px, 1.6vw, 20px);
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -.01em;
+}
+.t-date{
+  font-size: .72rem;
+  color: var(--ink3);
+  letter-spacing: .04em;
+  text-align: right;
 }
 
 /* EDU */
@@ -560,7 +594,9 @@ footer span{
     <span class="ticker-item">///////////</span>
     <span class="ticker-item">Forbes U30 Scholar</span>
     <span class="ticker-item">///////////</span>
-    <span class="ticker-item"><span>Preschool Teacher</span> · Chinatown</span>
+    <span class="ticker-item"><span>Chinatown</span> Children's Center</span>
+    <span class="ticker-item">///////////</span>
+    <span class="ticker-item">Minds Matter Bay Area</span>
     <span class="ticker-item">///////////</span>
     <span class="ticker-item">BCG · Serent Capital · Forta Health</span>
     <span class="ticker-item">///////////</span>
@@ -577,7 +613,9 @@ footer span{
     <span class="ticker-item">///////////</span>
     <span class="ticker-item">Forbes U30 Scholar</span>
     <span class="ticker-item">///////////</span>
-    <span class="ticker-item"><span>Preschool Teacher</span> · Chinatown</span>
+    <span class="ticker-item"><span>Chinatown</span> Children's Center</span>
+    <span class="ticker-item">///////////</span>
+    <span class="ticker-item">Minds Matter Bay Area</span>
     <span class="ticker-item">///////////</span>
     <span class="ticker-item">BCG · Serent Capital · Forta Health</span>
     <span class="ticker-item">///////////</span>
@@ -594,9 +632,9 @@ footer span{
     <div class="about-text">
       I back <em>AI-native founders</em> rewriting industries — with a particular lens on
       Chinese-founded teams building for global markets.<br><br>
-      Outside the fund, I teach preschool at a community center in Chinatown,
-      play pickleball at a 5.0 rating, and think a lot about
-      how <em>great education</em> and great investing rhyme.
+      Outside the fund, I\u2019ve spent four years teaching kids across SF \u2014 from preschool in Chinatown
+      to high school college prep with Minds Matter. I play pickleball at a 5.0 rating,
+      and think a lot about how <em>great education</em> and great investing rhyme.
     </div>
     <div class="about-stats">
       <div class="stat-row">
@@ -649,25 +687,43 @@ footer span{
 <div class="bg-section">
 <section class="section" id="teaching">
   <div class="section-label">Beyond the Fund</div>
+
   <div class="teaching-header reveal">
     <div class="teaching-headline">
-      I teach preschool<br>in <em>San Francisco's Chinatown</em><br>every week.
+      Investing and teaching<br>aren\u2019t that different \u2014<br>both are bets on <em>people</em>.
     </div>
-    <div>
-      <div class="teaching-desc">
-        Board member and volunteer teacher at the Chinatown Community Children's Center since 2022.
-        Every spring we run a gala for 500+ families and raise funds to keep the center running.
-        The work keeps me honest about what actually matters.
-      </div>
-      <br/>
+    <div class="teaching-desc">
+      I\u2019ve spent the last four years working with kids across SF \u2014 from preschoolers in Chinatown
+      to high schoolers navigating college applications. The work keeps me grounded
+      and makes me a better investor.
       <div class="teaching-chips">
         <span class="chip">Board Member</span>
-        <span class="chip">Preschool Teacher</span>
-        <span class="chip">$45K Annual Fundraising</span>
+        <span class="chip">Program Lead</span>
+        <span class="chip">Teacher</span>
+        <span class="chip">$45K Raised</span>
         <span class="chip">500+ Spring Gala</span>
       </div>
     </div>
   </div>
+
+  <div class="t-list">
+    <div class="t-item">
+      <div class="t-org">Chinatown Children\u2019s Center</div>
+      <div class="t-role">Board Member &amp; Volunteer Teacher</div>
+      <div class="t-date">Mar 2022 \u2014 Present</div>
+    </div>
+    <div class="t-item">
+      <div class="t-org">Minds Matter Bay Area</div>
+      <div class="t-role">Summer Program Lead, San Francisco</div>
+      <div class="t-date">Aug 2023 \u2014 Present</div>
+    </div>
+    <div class="t-item">
+      <div class="t-org">Washington Elementary</div>
+      <div class="t-role">Teacher Assistant</div>
+      <div class="t-date">Jan \u2014 Jun 2021</div>
+    </div>
+  </div>
+
 </section>
 </div>
 
@@ -832,7 +888,7 @@ document.addEventListener('mousemove', e => {
 /* ══════════════════════════════════════════════
    SCROLL REVEAL
 ══════════════════════════════════════════════ */
-const reveals = document.querySelectorAll('.reveal,.career-item');
+const reveals = document.querySelectorAll('.reveal,.career-item,.t-item');
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if(e.isIntersecting){
