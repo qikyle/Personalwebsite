@@ -11,7 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px;scroll-behavior:smooth}
+html{font-size:16px;scroll-behavior:smooth;scroll-snap-type:y mandatory;overflow-y:scroll;}
 :root{
   --bg:#060810;--bg2:#0c1220;
   --ink:#f0e9de;--ink2:#9aa8c0;--ink3:#50607a;
@@ -50,6 +50,26 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1
 #glow-rose{width:500px;height:500px;bottom:10%;left:-5%;background:radial-gradient(circle,rgba(200,128,106,.13) 0%,transparent 65%);animation:glow-drift 11s ease-in-out infinite reverse;}
 #glow-blue{width:400px;height:400px;top:30%;left:35%;background:radial-gradient(circle,rgba(126,184,255,.06) 0%,transparent 65%);animation:glow-drift 13s ease-in-out infinite 2s;}
 @keyframes glow-drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(20px,-15px) scale(1.08)}66%{transform:translate(-15px,20px) scale(.94)}}
+
+/* ── SNAP SCROLL ── */
+#hero{scroll-snap-align:start;}
+.section{scroll-snap-align:start;scroll-margin-top:0;min-height:100vh;}
+.contact-section{scroll-snap-align:start;}
+
+/* ── SECTION HOVER HIGHLIGHT ── */
+.section{position:relative;transition:background .4s;}
+.section::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(to bottom,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .4s var(--ease);border-radius:0 2px 2px 0;
+}
+.section:hover::before{opacity:.55;}
+.section::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at left center, rgba(221,184,74,.03) 0%, transparent 60%);
+  opacity:0;transition:opacity .5s var(--ease);
+}
+.section:hover::after{opacity:1;}
 
 /* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px 40px;border-bottom:1px solid rgba(221,184,74,.08);}
@@ -126,12 +146,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
 .career-item:hover .career-role{color:var(--gold2);transition:color .2s;}
 /* Logo circle */
 .co-logo{
-  width:40px;height:40px;border-radius:10px;
-  background:rgba(221,184,74,.08);border:1px solid rgba(221,184,74,.12);
+  width:44px;height:44px;border-radius:10px;
+  background:#fff;border:1px solid rgba(255,255,255,.1);
   display:flex;align-items:center;justify-content:center;overflow:hidden;
-  flex-shrink:0;
+  flex-shrink:0;transition:box-shadow .25s;
 }
-.co-logo img{width:26px;height:26px;object-fit:contain;filter:brightness(0) invert(1);opacity:.7;}
+.career-item:hover .co-logo{box-shadow:0 0 14px rgba(221,184,74,.25);}
+.co-logo img{width:32px;height:32px;object-fit:contain;opacity:.9;filter:drop-shadow(0 0 6px rgba(0,0,0,.5));}
 .career-co{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
 .career-role{font-size:clamp(16px,1.6vw,21px);font-weight:400;color:var(--ink);letter-spacing:-.01em;transition:color .2s;}
 .career-note{font-size:.68rem;color:var(--ink3);letter-spacing:.04em;text-align:right;}
@@ -376,9 +397,9 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
     <div class="career-list">
 
       <div class="career-item">
-        <div class="co-logo">
+        <div class="co-logo" id="logo-llama">
           <img src="https://logo.clearbit.com/llamaventures.vc" alt="Llama Ventures"
-               onerror="this.style.display='none';this.parentNode.textContent='LV'"/>
+               onerror="this.parentNode.innerHTML='<span style=&quot;font-size:22px;line-height:1&quot;>🦙</span>'"/>
         </div>
         <div class="career-co">Llama Ventures</div>
         <div class="career-role">Investor &mdash; AI &amp; Enterprise Software</div>
@@ -388,7 +409,7 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
       <div class="career-item">
         <div class="co-logo">
           <img src="https://logo.clearbit.com/serentcapital.com" alt="Serent Capital"
-               onerror="this.style.display='none';this.parentNode.textContent='SC'"/>
+               onerror="this.parentNode.innerHTML='<span style=&quot;font-size:.5rem;font-weight:700;color:#555;letter-spacing:-.02em&quot;>SERENT</span>'"/>
         </div>
         <div class="career-co">Serent Capital</div>
         <div class="career-role">Private Equity Associate</div>
@@ -398,7 +419,7 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
       <div class="career-item">
         <div class="co-logo">
           <img src="https://logo.clearbit.com/fortahealth.com" alt="Forta Health"
-               onerror="this.style.display='none';this.parentNode.textContent='FH'"/>
+               onerror="this.parentNode.innerHTML='<span style=&quot;font-size:.5rem;font-weight:700;color:#555;letter-spacing:-.02em&quot;>FORTA</span>'"/>
         </div>
         <div class="career-co">Forta Health</div>
         <div class="career-role">Chief of Staff</div>
@@ -408,7 +429,7 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
       <div class="career-item">
         <div class="co-logo">
           <img src="https://logo.clearbit.com/bcg.com" alt="BCG"
-               onerror="this.style.display='none';this.parentNode.textContent='BCG'"/>
+               onerror="this.parentNode.innerHTML='<span style=&quot;font-size:.55rem;font-weight:700;color:#1a6035;letter-spacing:-.01em&quot;>BCG</span>'"/>
         </div>
         <div class="career-co">BCG</div>
         <div class="career-role">Associate, Strategy Consulting</div>
@@ -466,7 +487,8 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
       <div class="edu-logo-wrap">
         <div class="edu-logo-circle">
           <img src="https://logo.clearbit.com/berkeley.edu" alt="UC Berkeley"
-               onerror="this.style.display='none';this.parentNode.innerHTML='<span style=&quot;font-size:.58rem;color:var(--gold);font-weight:600&quot;>Cal</span>'"/>
+               style="width:32px;height:32px;object-fit:contain;"
+               onerror="this.parentNode.innerHTML='<span style=&quot;font-size:.58rem;font-weight:700;color:#003262&quot;>CAL</span>'"/>
         </div>
         <div>
           <div class="edu-school">UC Berkeley</div>
@@ -815,12 +837,12 @@ addEventListener('scroll',updateDots,{passive:true});updateDots();
    SCROLL-DRIVEN ZOOM (sections)
 ══════════════════════════════════════════════ */
 const zSects=[
-  {id:'about',    sE:.87,sX:.97,rX:5},
-  {id:'career',   sE:.9, sX:.98,rX:0},  // no tilt for career — logos stay readable
-  {id:'teaching', sE:.86,sX:.96,rX:4},
-  {id:'education',sE:.9, sX:.97,rX:2},
-  {id:'hobbies',  sE:.88,sX:.97,rX:3},
-  {id:'contact',  sE:.82,sX:1,  rX:0},
+  {id:'about',    sE:.88,sX:.97},
+  {id:'career',   sE:.91,sX:.98},
+  {id:'teaching', sE:.88,sX:.96},
+  {id:'education',sE:.91,sX:.97},
+  {id:'hobbies',  sE:.89,sX:.97},
+  {id:'contact',  sE:.84,sX:1  },
 ];
 zSects.forEach(s=>{const el=document.getElementById(s.id);if(el){el.classList.add('zoom-section');s.el=el;}});
 function lerp(a,b,t){return a+(b-a)*t;}
@@ -831,11 +853,11 @@ function updateZooms(){
     const rect=s.el.getBoundingClientRect();
     const c=rect.top+rect.height/2;
     const t=1-c/vH;
-    let sc,rx,op;
-    if(t<.28){const p=t/.28,e=1-Math.pow(1-p,2.2);sc=lerp(s.sE,1,e);rx=lerp(s.rX,0,e);op=lerp(.25,1,e);}
-    else if(t<.72){sc=1;rx=0;op=1;}
-    else{const p=(t-.72)/.28,e=Math.pow(p,2);sc=lerp(1,s.sX,e);rx=0;op=lerp(1,.5,e);}
-    s.el.style.transform=`perspective(1400px) rotateX(${rx}deg) scale(${sc})`;
+    let sc,op;
+    if(t<.28){const p=t/.28,e=1-Math.pow(1-p,2.2);sc=lerp(s.sE,1,e);op=lerp(.3,1,e);}
+    else if(t<.72){sc=1;op=1;}
+    else{const p=(t-.72)/.28,e=Math.pow(p,2);sc=lerp(1,s.sX,e);op=lerp(1,.6,e);}
+    s.el.style.transform=`scale(${sc})`;
     s.el.style.opacity=op;
   });
 }
