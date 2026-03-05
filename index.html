@@ -152,10 +152,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
 .page-body::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(221,184,74,.22),transparent);}
 
 .section{padding:80px 48px 64px;max-width:1240px;margin:0 auto;width:100%;}
-.section-label{font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:32px;display:flex;align-items:center;gap:14px;opacity:0;transform:translateX(-24px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
-.section-label.visible{opacity:1;transform:translateX(0);}
-.section-label::after{content:'';width:0;height:1px;background:var(--gold);opacity:.4;transition:width .7s var(--ease) .35s;}
-.section-label.visible::after{width:40px;}
+.section-label{font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:32px;display:flex;align-items:center;gap:14px;}
+.section-label::after{content:'';width:40px;height:1px;background:var(--gold);opacity:.4;}
 
 /* ── ABOUT ── */
 .about-body{display:grid;grid-template-columns:1.2fr .8fr;gap:56px;align-items:start;}
@@ -208,8 +206,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
     inset 0 1px 0 rgba(255,255,255,.06);
 }
 /* Text above holographic layers — no z-index needed; isolation:isolate on parent keeps ::before/::after behind at z-index:-1 */
-.about-text .w{display:inline-block;opacity:.1;transition:opacity .5s var(--ease);}
-.about-text .w.lit{opacity:1;}
+.about-text .w{display:inline-block;}
 .about-text em{font-style:italic;color:var(--gold);}
 .about-text em a{color:inherit;text-decoration:none;display:inline-block;}
 .about-text em a::before,.about-text em a::after{
@@ -275,8 +272,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
     inset 0 1px 0 rgba(255,255,255,.06);
 }
 /* Content above holographic layers — z-index:-1 on ::before/::after handles stacking */
-.stat-row{border-top:1px solid rgba(221,184,74,.1);padding-top:18px;opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .5s var(--ease);}
-.stat-row.visible{opacity:1;transform:translateY(0);}
+.stat-row{border-top:1px solid rgba(221,184,74,.1);padding-top:18px;}
 .stat-num{
   font-size:clamp(28px,3.5vw,52px);font-weight:600;line-height:1;
   letter-spacing:-.02em;font-variant-numeric:tabular-nums;
@@ -307,10 +303,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
   grid-template-rows:auto auto;
   align-items:center;gap:0 20px;padding:20px 0;
   border-top:1px solid rgba(221,184,74,.08);
-  opacity:0;transform:translateY(28px);
-  transition:opacity .65s var(--ease),transform .65s var(--ease);
 }
-.career-item.visible{opacity:1;transform:translateY(0);}
 .career-item:last-child{border-bottom:1px solid rgba(221,184,74,.08);}
 .career-item:hover .career-role{color:var(--gold2);transition:color .2s;}
 /* Logo circle */
@@ -468,9 +461,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
 
 /* ── TEACHING ── */
 .teaching-header{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:40px;}
-.teaching-hl{font-size:clamp(24px,3vw,44px);font-weight:400;line-height:1.22;letter-spacing:-.02em;color:var(--ink);
-  opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
-.teaching-hl.visible{opacity:1;transform:translateY(0);}
+.teaching-hl{font-size:clamp(24px,3vw,44px);font-weight:400;line-height:1.22;letter-spacing:-.02em;color:var(--ink);}
 .teaching-hl em{font-style:italic;color:var(--rose);}
 .teaching-desc{font-size:.88rem;color:var(--ink);opacity:.72;line-height:1.75;font-weight:300;}
 .t-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
@@ -480,19 +471,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
   display:grid;grid-template-columns:230px 1fr 160px;
   align-items:start;gap:28px;padding:22px 0;
   border-top:1px solid rgba(200,128,106,.1);
-  opacity:0;transform:translateY(20px);
-  transition:opacity .6s var(--ease),transform .6s var(--ease);
 }
-.t-item.visible{opacity:1;transform:scale(1) translateY(0);}
 .t-item:last-child{border-bottom:1px solid rgba(200,128,106,.1);}
 .t-org{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rose);}
 .t-role{font-size:clamp(15px,1.5vw,19px);font-weight:400;color:var(--ink);letter-spacing:-.01em;}
 .t-date{font-size:.68rem;color:var(--ink3);letter-spacing:.04em;text-align:right;}
 
 /* ── EDU ── */
-.edu-row{display:grid;grid-template-columns:1fr auto;align-items:start;gap:32px;padding:36px 0;border-top:1px solid rgba(221,184,74,.08);
-  opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
-.edu-row.visible{opacity:1;transform:translateY(0);}
+.edu-row{display:grid;grid-template-columns:1fr auto;align-items:start;gap:32px;padding:36px 0;border-top:1px solid rgba(221,184,74,.08);}
 .edu-school{font-size:clamp(20px,2.2vw,30px);font-weight:400;letter-spacing:-.01em;color:var(--ink);}
 .edu-sub{font-size:.78rem;color:var(--ink3);margin-top:6px;letter-spacing:.02em;}
 .edu-badge{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:8px;}
@@ -511,9 +497,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
   padding:30px 14px 22px;text-align:center;
   background:rgba(221,184,74,.025);cursor:default;
   transition:transform .4s var(--spring),border-color .25s,background .25s,box-shadow .25s;
-  opacity:0;transform:translateY(18px);
 }
-.hobby-card.visible{opacity:1;transform:translateY(0);}
 .hobby-card:hover{
   transform:translateY(-4px) scale(1.025);
   border-color:rgba(221,184,74,.35);
@@ -587,9 +571,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
 
 /* ── CONTACT ── */
 .contact-section{border-top:1px solid rgba(221,184,74,.1);padding:80px 48px 100px;}
-.contact-big{font-family:var(--display);font-size:clamp(64px,10vw,152px);line-height:.9;letter-spacing:.01em;color:var(--ink);
-  opacity:0;transform:scale(.55);transition:opacity .9s var(--spring),transform .9s var(--spring);}
-.contact-big.visible{opacity:1;transform:scale(1);}
+.contact-big{font-family:var(--display);font-size:clamp(64px,10vw,152px);line-height:.9;letter-spacing:.01em;color:var(--ink);}
 .contact-big a{text-decoration:none;color:inherit;display:inline-block;position:relative;}
 .contact-big a::after{content:'';position:absolute;left:0;bottom:2px;width:0;height:3px;background:var(--gold);transition:width .5s var(--ease);}
 .contact-big a:hover::after{width:100%;}
@@ -636,10 +618,8 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
 /* ── ABOUT SECTION ACCENT LINE — removed, replaced by holographic card ── */
 
 /* ── GENERIC REVEAL ── */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
-.reveal.visible{opacity:1;transform:translateY(0);}
-.glide-right{opacity:0;transform:translateX(28px) scale(.95);transition:opacity .65s var(--ease),transform .65s var(--ease);}
-.glide-right.visible{opacity:1;transform:translateX(0) scale(1);}
+.reveal{}
+.glide-right{}
 
 /* ── THESIS CARD ENTRANCE — own keyframe, isolated from .reveal cascade ── */
 @keyframes thesis-in{
@@ -647,7 +627,6 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
   to  {opacity:1;transform:translateY(0);}
 }
 /* default: hidden but NOT via .reveal so cascade conflicts can't touch it */
-.thesis-card{opacity:0;}
 .thesis-card.visible{animation:thesis-in .65s var(--ease) both;}
 
 /* zoom-section wrapper */
@@ -1556,8 +1535,8 @@ addEventListener('click',e=>{
     const top=el.getBoundingClientRect().top,h=el.offsetHeight;
     words.forEach((w,i)=>{if((innerHeight-top-i*(h/words.length*.85))/innerHeight>.14)w.classList.add('lit');});
   }
-  // expose update for unified handler; call once now
-  window._wordRevealUpdate=update;update();
+  // word reveal disabled — words always visible for seamless scrolling
+  // window._wordRevealUpdate=update;
 })();
 
 /* ══════════════════════════════════════════════
@@ -1591,51 +1570,49 @@ const cntIO=new IntersectionObserver(es=>{
 document.querySelectorAll('[data-count]').forEach(el=>cntIO.observe(el));
 
 /* ══════════════════════════════════════════════
-   INTERSECTION OBSERVER REVEALS
+   INTERSECTION OBSERVER — stat bars + scramble only
+   (visibility no longer controlled here — all content always shown)
 ══════════════════════════════════════════════ */
-const revIO=new IntersectionObserver(es=>{
+// Stat bar fills: animate width when row scrolls into view
+const barIO=new IntersectionObserver(es=>{
   es.forEach(e=>{
     if(!e.isIntersecting)return;
-    const isThesis=e.target.classList.contains('thesis-card');
-    // thesis: set animation-delay BEFORE adding visible so the keyframe sees it
-    if(isThesis){
-      const idx=Array.from(document.querySelectorAll('.thesis-card')).indexOf(e.target);
-      e.target.style.animationDelay=(idx*120)+'ms';
-    }
-    const sib=Array.from(e.target.parentNode.children);
-    const delay=isThesis?0:sib.indexOf(e.target)*75;
-    setTimeout(()=>{
-      e.target.classList.add('visible');
-      // trigger scramble on labels
-      if(e.target.classList.contains('section-label')) scramble(e.target);
-      // animate stat bars
-      if(e.target.classList.contains('stat-row')){
-        const fill=e.target.querySelector('.stat-bar-fill');
-        if(fill) setTimeout(()=>{ fill.style.width=fill.dataset.width+'%'; },200);
-      }
-    },delay);
-    revIO.unobserve(e.target);
+    const fill=e.target.querySelector('.stat-bar-fill');
+    if(fill) setTimeout(()=>{ fill.style.width=fill.dataset.width+'%'; },150);
+    barIO.unobserve(e.target);
   });
-},{threshold:.08});
-document.querySelectorAll(
-  '.reveal,.thesis-card,.career-item,.t-item,.edu-row,.glide-right,.stat-row,.section-label,.teaching-hl,.contact-big,.hobby-card'
-).forEach(el=>revIO.observe(el));
+},{threshold:.2});
+document.querySelectorAll('.stat-row').forEach(el=>barIO.observe(el));
 
-/* ── IO FALLBACK: if IntersectionObserver never fires (hidden tab, old browser,
-   or element already in view on load), force-reveal after 1.8 s ── */
+// Score bar fills
+const scoreIO=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const fill=e.target.querySelector('.score-fill');
+    if(fill) setTimeout(()=>{ fill.style.width=fill.dataset.width||fill.style.width; },150);
+    scoreIO.unobserve(e.target);
+  });
+},{threshold:.2});
+document.querySelectorAll('.score-card').forEach(el=>scoreIO.observe(el));
+
+// Section label scramble on first view
+const scrambleIO=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    scramble(e.target);
+    scrambleIO.unobserve(e.target);
+  });
+},{threshold:.5});
+document.querySelectorAll('.section-label').forEach(el=>scrambleIO.observe(el));
+
+// Stat bars fallback — trigger immediately for anything already in view
 setTimeout(()=>{
-  document.querySelectorAll(
-    '.reveal,.thesis-card,.career-item,.t-item,.edu-row,.glide-right,.stat-row,.section-label,.teaching-hl,.contact-big,.hobby-card'
-  ).forEach(el=>{
-    if(!el.classList.contains('visible')){
-      el.classList.add('visible');
-      if(el.classList.contains('stat-row')){
-        const fill=el.querySelector('.stat-bar-fill');
-        if(fill) setTimeout(()=>{ fill.style.width=fill.dataset.width+'%'; },200);
-      }
+  document.querySelectorAll('.stat-bar-fill').forEach(fill=>{
+    if(!fill.style.width || fill.style.width==='0%'){
+      fill.style.width=(fill.dataset.width||'80')+'%';
     }
   });
-},1800);
+},400);
 
 /* ══════════════════════════════════════════════
    SECTION DOTS
