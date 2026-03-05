@@ -952,19 +952,20 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
     <div class="section-label" data-scramble="About">About</div>
     <div class="about-body">
       <div class="about-text" id="about-text">
-        I grew up in Davis, California &mdash; a proper cow town &mdash; and arrived at
-        <em><a href="https://berkeley.edu" target="_blank" rel="noopener">UC Berkeley</a></em> curious about everything:
-        economics, data, teaching. I left knowing I wanted to be close to
-        where businesses are built and broken.
-        A consulting role gave me a rare seat inside a Private Equity
-        practice &mdash; running commercial due diligences for mega-funds, then a
-        secondment as Chief of Staff at a health-tech startup where I helped
-        close a <em>$55M Series A</em>.
-        From there, growth equity at <em><a href="https://serentcapital.com" target="_blank" rel="noopener">Serent Capital</a></em>: lower-middle-market SaaS,
-        hands-on operations, and a platform deal I sourced and closed.
-        Now at <em><a href="https://llamaventures.vc" target="_blank" rel="noopener">Llama Ventures</a></em> I back Pre-Seed and Seed founders
-        building AI-native companies &mdash; leading technical diligences,
-        sitting on boards, and asking the same question every time:
+        I grew up in Davis, California and arrived at
+        <em><a href="https://berkeley.edu" target="_blank" rel="noopener">UC Berkeley</a></em>
+        studying economics, data science, and education &mdash;
+        I left knowing I wanted to be close to where businesses are built.
+        At BCG, I ran commercial due diligences embedded inside a Private Equity
+        practice, then joined Forta Health as Chief of Staff &mdash;
+        helping close a <em>$55M Series A</em> and scale operations from the inside.
+        From there, growth equity at <em><a href="https://serentcapital.com" target="_blank" rel="noopener">Serent Capital</a></em>:
+        lower-middle-market SaaS, hands-on portfolio operations,
+        and a platform deal I sourced and led end-to-end.
+        Now at <em><a href="https://llamaventures.vc" target="_blank" rel="noopener">Llama Ventures</a></em>,
+        I back Pre-Seed and Seed founders building AI-native companies &mdash;
+        leading technical diligence, joining boards, and asking
+        the same question every time:
         <em>what&rsquo;s actually defensible?</em>
       </div>
       <div class="about-stats glide-right">
@@ -1600,6 +1601,17 @@ const scrambleIO=new IntersectionObserver(es=>{
 },{threshold:.5});
 document.querySelectorAll('.section-label').forEach(el=>scrambleIO.observe(el));
 
+// .visible class for CSS-driven entrance / shimmer animations
+// (thesis-card → thesis-in, stat-row → stat-shimmer/glow, edu-row → score-pop/school-in)
+const visibleIO=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.classList.add('visible');
+    visibleIO.unobserve(e.target);
+  });
+},{threshold:.15});
+document.querySelectorAll('.thesis-card,.edu-row,.stat-row').forEach(el=>visibleIO.observe(el));
+
 // Stat bars fallback — trigger immediately for anything already in view
 setTimeout(()=>{
   document.querySelectorAll('.stat-bar-fill').forEach(fill=>{
@@ -1650,12 +1662,12 @@ function updateZooms(){
     const rect=s.el.getBoundingClientRect();
     const c=rect.top+rect.height/2;
     const t=1-c/vH;
-    let sc,op;
-    if(t<.28){const p=t/.28,e=1-Math.pow(1-p,2.2);sc=lerp(s.sE,1,e);op=lerp(.3,1,e);}
-    else if(t<.72){sc=1;op=1;}
-    else{const p=(t-.72)/.28,e=Math.pow(p,2);sc=lerp(1,s.sX,e);op=lerp(1,.6,e);}
+    let sc;
+    if(t<.28){const p=t/.28,e=1-Math.pow(1-p,2.2);sc=lerp(s.sE,1,e);}
+    else if(t<.72){sc=1;}
+    else{const p=(t-.72)/.28,e=Math.pow(p,2);sc=lerp(1,s.sX,e);}
     s.el.style.transform=`scale(${sc})`;
-    s.el.style.opacity=op;
+    s.el.style.opacity='';  // never dim sections — no black-space gap
   });
 }
 updateZooms(); // initial call; scroll handled below
