@@ -1626,7 +1626,7 @@ setTimeout(()=>{
 ══════════════════════════════════════════════ */
 const sectionIds=['hero','about','career','thesis','teaching','education','hobbies','contact'];
 const sDots=document.querySelectorAll('.s-dot');
-sDots.forEach((d,i)=>d.addEventListener('click',()=>document.getElementById(sectionIds[i])?.scrollIntoView({behavior:'smooth'})));
+// dot click handlers defined below (with nav sync + immediate active)
 const navLinks=document.querySelectorAll('.nav-links a');
 function updateDots(){
   let active=0;
@@ -1639,6 +1639,31 @@ function updateDots(){
   });
 }
 updateDots(); // initial call; scroll handled below
+
+// ── NAV immediate click feedback ──
+// updateDots() only fires on scroll events, so there was a perceived
+// delay between clicking a nav link and the circle/gold activating.
+// This listener applies the active state the moment the click lands.
+navLinks.forEach(a=>{
+  a.addEventListener('click',()=>{
+    const href=a.getAttribute('href')?.replace('#','');
+    navLinks.forEach(l=>l.classList.remove('nav-active'));
+    a.classList.add('nav-active');
+    // sync sidebar dots too
+    const idx=sectionIds.indexOf(href);
+    if(idx>-1) sDots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+  });
+});
+// Section dots — also immediately reflect click
+sDots.forEach((d,i)=>{
+  d.addEventListener('click',()=>{
+    sDots.forEach(dot=>dot.classList.remove('active'));
+    d.classList.add('active');
+    const href=sectionIds[i];
+    navLinks.forEach(a=>a.classList.toggle('nav-active',a.getAttribute('href')?.replace('#','')===href));
+    document.getElementById(sectionIds[i])?.scrollIntoView({behavior:'smooth'});
+  });
+});
 
 /* ══════════════════════════════════════════════
    SCROLL-DRIVEN ZOOM (sections)
@@ -1663,11 +1688,13 @@ function updateZooms(){
     const c=rect.top+rect.height/2;
     const t=1-c/vH;
     let sc;
-    if(t<.28){const p=t/.28,e=1-Math.pow(1-p,2.2);sc=lerp(s.sE,1,e);}
+    // CLAMP p to [0,1] — without this, sections far off-screen get t << 0,
+    // p goes deeply negative, and scale() flips negative, hiding entire sections.
+    if(t<.28){const p=Math.max(0,t/.28),e=1-Math.pow(1-p,2.2);sc=lerp(s.sE,1,e);}
     else if(t<.72){sc=1;}
-    else{const p=(t-.72)/.28,e=Math.pow(p,2);sc=lerp(1,s.sX,e);}
+    else{const p=Math.min(1,(t-.72)/.28),e=Math.pow(p,2);sc=lerp(1,s.sX,e);}
     s.el.style.transform=`scale(${sc})`;
-    s.el.style.opacity='';  // never dim sections — no black-space gap
+    s.el.style.opacity='';
   });
 }
 updateZooms(); // initial call; scroll handled below
