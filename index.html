@@ -147,7 +147,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
 .page-body::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(221,184,74,.22),transparent);}
 
 .section{padding:80px 48px 64px;max-width:1240px;margin:0 auto;width:100%;}
-.section-label{font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:32px;display:flex;align-items:center;gap:14px;}
+.section-label{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:40px;display:flex;align-items:center;gap:14px;font-weight:500;}
 .section-label::after{content:'';width:40px;height:1px;background:var(--gold);opacity:.4;}
 
 /* ── ABOUT ── */
@@ -160,7 +160,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
   border:1px solid rgba(221,184,74,.14);
   background:linear-gradient(145deg,rgba(12,18,32,.80) 0%,rgba(6,8,16,.70) 100%);
   padding:32px 36px;
-  transition:border-color .4s var(--ease),box-shadow .4s var(--ease);
+  transition:border-color .4s var(--ease),box-shadow .4s var(--ease),transform .5s var(--ease);
+  transform-style:preserve-3d;
 }
 /* Static iridescent tint — no animation, no lag */
 .about-text::before{
@@ -226,7 +227,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
   border:1px solid rgba(126,184,255,.14);
   background:linear-gradient(145deg,rgba(12,18,32,.80) 0%,rgba(6,8,16,.70) 100%);
   padding:28px 32px;
-  transition:border-color .4s var(--ease),box-shadow .4s var(--ease);
+  transition:border-color .4s var(--ease),box-shadow .4s var(--ease),transform .5s var(--ease);
+  transform-style:preserve-3d;
 }
 /* Static iridescent tint — blue-led, no animation */
 .about-stats::before{
@@ -311,7 +313,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
 .career-item:hover .co-logo{box-shadow:0 0 14px rgba(221,184,74,.25);}
 .co-logo img{width:32px;height:32px;object-fit:contain;opacity:.9;filter:drop-shadow(0 0 6px rgba(0,0,0,.5));}
 .career-co{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);text-decoration:none;cursor:pointer;}
-.career-role{font-size:clamp(14px,1.3vw,18px);font-weight:400;color:var(--ink);letter-spacing:-.01em;transition:color .2s;}
+.career-role{font-size:clamp(16px,1.5vw,21px);font-weight:400;color:var(--ink);letter-spacing:-.01em;transition:color .2s;}
 .career-note{font-size:.68rem;color:var(--ink3);letter-spacing:.04em;text-align:right;}
 
 /* ── CAREER EXPANDED ── */
@@ -436,7 +438,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
   padding:4px 10px;border-radius:2px;
   transition:background .25s,border-color .25s;
 }
-.thesis-body{font-size:.83rem;color:var(--ink2);line-height:1.78;font-weight:300;max-width:520px;}
+.thesis-body{font-size:.9rem;color:var(--ink2);line-height:1.75;font-weight:300;max-width:520px;}
 /* hover */
 .thesis-card:hover{background:rgba(221,184,74,.025);}
 .thesis-card:hover .thesis-num{opacity:.55;text-shadow:0 0 48px rgba(221,184,74,.5);}
@@ -469,12 +471,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
 }
 .t-item:last-child{border-bottom:1px solid rgba(200,128,106,.1);}
 .t-org{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rose);}
-.t-role{font-size:clamp(15px,1.5vw,19px);font-weight:400;color:var(--ink);letter-spacing:-.01em;}
+.t-role{font-size:clamp(16px,1.6vw,21px);font-weight:400;color:var(--ink);letter-spacing:-.01em;}
 .t-date{font-size:.68rem;color:var(--ink3);letter-spacing:.04em;text-align:right;}
 
 /* ── EDU ── */
 .edu-row{display:grid;grid-template-columns:1fr auto;align-items:start;gap:32px;padding:36px 0;border-top:1px solid rgba(221,184,74,.08);}
-.edu-school{font-size:clamp(20px,2.2vw,30px);font-weight:400;letter-spacing:-.01em;color:var(--ink);}
+.edu-school{font-size:clamp(26px,2.8vw,40px);font-weight:400;letter-spacing:-.02em;color:var(--ink);}
 .edu-sub{font-size:.78rem;color:var(--ink3);margin-top:6px;letter-spacing:.02em;}
 .edu-badge{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:8px;}
 .edu-scores{display:flex;flex-direction:column;gap:8px;text-align:right;}
@@ -640,9 +642,31 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
 /* ── EDU SCHOOL name slide ── */
 @keyframes school-in{
   from{opacity:0;transform:translateY(14px);letter-spacing:.06em;}
-  to{opacity:1;transform:translateY(0);letter-spacing:-.01em;}
+  to{opacity:1;transform:translateY(0);letter-spacing:-.02em;}
 }
 .edu-row.visible .edu-school{animation:school-in .7s var(--ease) .05s both;}
+
+/* ── EDU LOGO entrance ── */
+@keyframes logo-in{
+  from{opacity:0;transform:scale(.78);}
+  to{opacity:1;transform:scale(1);}
+}
+.edu-row.visible .edu-logo-circle-lg{animation:logo-in .65s var(--spring) both;}
+
+/* ── EDU COURSE TAGS stagger ── */
+@keyframes tag-in{
+  from{opacity:0;transform:translateY(8px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.edu-row.visible .edu-course-tag{animation:tag-in .4s var(--spring) both;}
+.edu-row.visible .edu-course-tag:nth-child(1){animation-delay:.12s;}
+.edu-row.visible .edu-course-tag:nth-child(2){animation-delay:.20s;}
+.edu-row.visible .edu-course-tag:nth-child(3){animation-delay:.28s;}
+.edu-row.visible .edu-course-tag:nth-child(4){animation-delay:.36s;}
+.edu-row.visible .edu-course-tag:nth-child(5){animation-delay:.44s;}
+
+/* ── EDU BADGE slide in ── */
+.edu-row.visible .edu-badge{animation:tag-in .5s var(--ease) .5s both;}
 
 /* ── CONTACT "SAY HELLO." gradient shimmer ── */
 .contact-big a{
@@ -742,6 +766,22 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
 #three-canvas{opacity:0;transition:opacity 1s .3s;mix-blend-mode:screen;}
 #three-canvas.ready{opacity:1;}
 
+/* ── MOBILE HOLOGRAPHIC AUTO-SWEEP ── */
+/* On touch devices there's no hover, so the sweep auto-plays on a loop */
+@keyframes mobile-holo-sweep{
+  0%,100%{transform:rotate(-45deg) translateY(-130%);}
+  40%,60% {transform:rotate(-45deg) translateY(130%);}
+}
+/* ── MOBILE ENTRANCE ANIMATIONS ── */
+@keyframes slide-up-in{
+  from{opacity:0;transform:translateY(16px);}
+  to  {opacity:1;transform:translateY(0);}
+}
+@keyframes slide-left-in{
+  from{opacity:0;transform:translateX(-14px);}
+  to  {opacity:1;transform:translateX(0);}
+}
+
 /* ══════════════════════════════════════════════
    MOBILE — 768 px and below
 ══════════════════════════════════════════════ */
@@ -820,6 +860,32 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
 
   /* no section dot grid on mobile */
   .section::after{display:none;}
+
+  /* ── Mobile holographic sweep: auto-plays instead of requiring hover ── */
+  .about-text::after{animation:mobile-holo-sweep 3.8s ease-in-out 1.2s infinite;}
+  .about-stats::after{animation:mobile-holo-sweep 3.8s ease-in-out 2.4s infinite;}
+
+  /* ── Hobby card entrance stagger (requires .visible class from IO) ── */
+  .hobby-card:not(.visible){opacity:0;transform:translateY(14px);}
+  .hobby-card.visible{
+    animation:slide-up-in .5s var(--spring) both;
+  }
+  .hobby-card:nth-child(1).visible{animation-delay:.0s;}
+  .hobby-card:nth-child(2).visible{animation-delay:.07s;}
+  .hobby-card:nth-child(3).visible{animation-delay:.14s;}
+  .hobby-card:nth-child(4).visible{animation-delay:.21s;}
+  .hobby-card:nth-child(5).visible{animation-delay:.28s;}
+  .hobby-card:nth-child(6).visible{animation-delay:.35s;}
+  .hobby-card:nth-child(7).visible{animation-delay:.42s;}
+
+  /* ── Teaching item entrance stagger on mobile ── */
+  .t-item:not(.visible){opacity:0;transform:translateX(-12px);}
+  .t-item.visible{
+    animation:slide-left-in .45s var(--ease) both;
+  }
+  .t-item:nth-child(1).visible{animation-delay:.0s;}
+  .t-item:nth-child(2).visible{animation-delay:.08s;}
+  .t-item:nth-child(3).visible{animation-delay:.16s;}
 }
 
 @media (max-width:480px){
@@ -1241,12 +1307,12 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
       </div>
       <div class="edu-scores-col">
         <div class="score-card">
-          <div class="score-num">36</div>
+          <div class="score-num" data-count="36"></div>
           <div class="score-lbl">ACT</div>
           <div class="score-bar"><div class="score-fill" style="width:100%"></div></div>
         </div>
         <div class="score-card">
-          <div class="score-num">335</div>
+          <div class="score-num" data-count="335"></div>
           <div class="score-lbl">GRE</div>
           <div class="score-bar"><div class="score-fill" style="width:97%"></div></div>
         </div>
@@ -1610,7 +1676,7 @@ const visibleIO=new IntersectionObserver(es=>{
     visibleIO.unobserve(e.target);
   });
 },{threshold:.15});
-document.querySelectorAll('.thesis-card,.edu-row,.stat-row').forEach(el=>visibleIO.observe(el));
+document.querySelectorAll('.thesis-card,.edu-row,.stat-row,.hobby-card,.t-item').forEach(el=>visibleIO.observe(el));
 
 // Stat bars fallback — trigger immediately for anything already in view
 setTimeout(()=>{
@@ -1727,6 +1793,33 @@ addEventListener('scroll',()=>{
   });
 },{passive:true});
 (function skewLoop(){skewC+=(skewT-skewC)*.11;skewT*=.8;pb.style.transform=`skewY(${skewC.toFixed(3)}deg)`;requestAnimationFrame(skewLoop);})();
+
+/* ══════════════════════════════════════════════
+   3D MOUSE TILT — about cards (desktop only)
+   Combines with the existing holographic sweep for a credit-card feel
+══════════════════════════════════════════════ */
+if(!isMobile){
+  document.querySelectorAll('.about-text,.about-stats').forEach(card=>{
+    let raf;
+    card.addEventListener('mousemove',e=>{
+      if(raf)cancelAnimationFrame(raf);
+      raf=requestAnimationFrame(()=>{
+        const r=card.getBoundingClientRect();
+        const x=(e.clientX-r.left)/r.width-.5;   // -0.5 → 0.5
+        const y=(e.clientY-r.top)/r.height-.5;
+        // kill transition during move so it tracks cursor without lag
+        card.style.transition='border-color .4s,box-shadow .4s';
+        card.style.transform=`perspective(700px) rotateY(${x*14}deg) rotateX(${-y*9}deg) scale(1.03)`;
+      });
+    });
+    card.addEventListener('mouseleave',()=>{
+      if(raf)cancelAnimationFrame(raf);
+      // restore full transition for smooth snap-back
+      card.style.transition='border-color .4s var(--ease),box-shadow .4s var(--ease),transform .55s var(--ease)';
+      card.style.transform='';
+    });
+  });
+}
 
 /* ══════════════════════════════════════════════
    CURSOR EXPAND ON HOVER TARGETS
