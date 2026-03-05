@@ -92,8 +92,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
 .nav-links a.nav-active{color:var(--gold);}
 .nav-links a.nav-active::before{opacity:.5;transform:scale(1);}
 .nav-right{text-align:right;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);display:flex;align-items:center;gap:8px;justify-content:flex-end;}
-.status-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;flex-shrink:0;animation:pulse-dot 2s ease-in-out infinite;}
-@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.4)}50%{box-shadow:0 0 0 6px rgba(74,222,128,0)}}
+/* status-dot removed — replaced by live SF clock */
+#nav-time{gap:6px;}
+#nav-time-city{color:var(--ink3);}
+#nav-time-clock{color:var(--gold);font-variant-numeric:tabular-nums;}
 
 /* ── SECTION DOTS ── */
 #section-dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:400;display:flex;flex-direction:column;gap:10px;}
@@ -946,7 +948,7 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
     <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <div class="nav-right"><div class="status-dot"></div>Open to connects</div>
+  <div class="nav-right" id="nav-time"><span id="nav-time-city">SF</span><span id="nav-time-clock"></span></div>
 </nav>
 
 <!-- HERO -->
@@ -1550,18 +1552,11 @@ window.addEventListener('load',function(){
 });
 
 /* ══════════════════════════════════════════════
-   HERO NAME — crop reveal + GLITCH
+   HERO NAME — crop reveal
 ══════════════════════════════════════════════ */
 const heroName=document.getElementById('hero-name');
 // hero name scroll handled in unified scroll handler below
-function glitch(){
-  const ox=(Math.random()-.5)*9,oy=(Math.random()-.5)*4;
-  heroName.style.cssText+=`;transform:translate(${ox}px,${oy}px);filter:hue-rotate(${Math.random()*40}deg) brightness(1.3)`;
-  setTimeout(()=>{heroName.style.transform='';heroName.style.filter='';
-    if(Math.random()>.5) setTimeout(glitch,60);
-  },60+Math.random()*90);
-}
-(function sg(){setTimeout(()=>{glitch();sg();},3000+Math.random()*5500);})();
+// (glitch removed — name-shimmer CSS animation is the effect)
 
 /* ══════════════════════════════════════════════
    CLICK RIPPLE
@@ -1575,6 +1570,22 @@ addEventListener('click',e=>{
   document.body.appendChild(r);
   r.addEventListener('animationend',()=>r.remove());
 });
+
+/* ══════════════════════════════════════════════
+   LIVE SF CLOCK — nav top-right
+══════════════════════════════════════════════ */
+(function(){
+  const clock=document.getElementById('nav-time-clock');
+  function tick(){
+    const t=new Date().toLocaleString('en-US',{
+      timeZone:'America/Los_Angeles',
+      hour:'numeric',minute:'2-digit',hour12:true
+    });
+    clock.textContent=' · '+t;
+  }
+  tick();
+  setInterval(tick,30000); // refresh every 30 s
+})();
 
 /* ══════════════════════════════════════════════
    WORD-BY-WORD REVEAL
@@ -1765,13 +1776,8 @@ function updateZooms(){
 }
 updateZooms(); // initial call; scroll handled below
 
-/* ══════════════════════════════════════════════
-   SCROLL MOMENTUM SKEW
-══════════════════════════════════════════════ */
-let lastSY=0,skewT=0,skewC=0;
-const pb=document.querySelector('.page-body');
-
 /* ── UNIFIED SCROLL HANDLER (RAF-gated — replaces 4 separate listeners) ── */
+// skewY scroll warp removed — caused perceived shakiness on fast scroll
 let _scrollRaf=false;
 addEventListener('scroll',()=>{
   if(_scrollRaf)return;
@@ -1785,14 +1791,11 @@ addEventListener('scroll',()=>{
     if(window._wordRevealUpdate)window._wordRevealUpdate();
     // 4. nav dots + active section
     updateDots();
-    // 4. section zoom
+    // 5. section zoom
     updateZooms();
-    // 5. skew velocity
-    const vel=scrollY-lastSY;lastSY=scrollY;skewT=Math.max(-1.6,Math.min(1.6,vel*-.055));
     _scrollRaf=false;
   });
 },{passive:true});
-(function skewLoop(){skewC+=(skewT-skewC)*.11;skewT*=.8;pb.style.transform=`skewY(${skewC.toFixed(3)}deg)`;requestAnimationFrame(skewLoop);})();
 
 /* ══════════════════════════════════════════════
    3D MOUSE TILT — about cards (desktop only)
