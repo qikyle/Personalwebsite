@@ -897,6 +897,78 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
   .nav-right{display:none;}
   .h-name{font-size:clamp(64px,20vw,96px);}
 }
+
+/* ══════════════════════════════════════════════
+   EDUCATION — HOLOGRAPHIC CARD + SWEEP ENTRANCE
+   (appended last so it wins the cascade over .edu-row)
+══════════════════════════════════════════════ */
+.edu-hero-row{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border-radius:18px;
+  border:1px solid rgba(0,50,98,.20);   /* full card border, overrides .edu-row border-top */
+  background:linear-gradient(145deg,rgba(0,22,58,.52) 0%,rgba(6,8,16,.44) 100%);
+  padding:36px 32px;                    /* adds left/right padding to the card */
+  transition:border-color .5s var(--ease),box-shadow .5s var(--ease);
+}
+/* Static iridescent tint — Berkeley blue-led */
+.edu-hero-row::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(
+    140deg,
+    transparent 10%,
+    rgba(0,82,165,.05) 32%,
+    rgba(221,184,74,.04) 56%,
+    rgba(126,184,255,.04) 75%,
+    transparent 90%
+  );
+  pointer-events:none;z-index:-1;
+}
+/* One-shot holographic sweep — fires on entrance */
+.edu-hero-row::after{
+  content:'';
+  position:absolute;
+  top:-50%;left:-50%;width:200%;height:200%;
+  background:linear-gradient(
+    0deg,
+    transparent 28%,
+    rgba(221,184,74,.09) 42%,
+    rgba(0,82,165,.15) 56%,
+    rgba(126,184,255,.08) 64%,
+    transparent 72%
+  );
+  transform:rotate(-45deg) translateY(-130%);
+  pointer-events:none;z-index:-1;
+  will-change:transform;
+}
+.edu-hero-row.visible{
+  border-color:rgba(0,82,165,.32);
+  box-shadow:
+    0 0 40px rgba(0,50,98,.14),
+    0 0 80px rgba(221,184,74,.05),
+    inset 0 1px 0 rgba(255,255,255,.05);
+}
+.edu-hero-row.visible::after{
+  animation:edu-card-sweep .95s ease-out .1s forwards;
+}
+@keyframes edu-card-sweep{
+  from{transform:rotate(-45deg) translateY(-130%);}
+  to  {transform:rotate(-45deg) translateY(130%);}
+}
+/* Logo pulse glow on entrance */
+.edu-hero-row.visible .edu-logo-circle-lg{
+  border-color:rgba(0,82,165,.5);
+  box-shadow:
+    0 0 22px rgba(0,50,98,.3),
+    0 0 44px rgba(0,50,98,.12),
+    0 0 6px rgba(221,184,74,.12);
+  transition:border-color .7s var(--ease),box-shadow .7s var(--ease);
+}
+/* Mobile: remove backdrop-filter for perf, keep card look */
+@media (max-width:768px){
+  .edu-hero-row{padding:24px 18px;border-radius:14px;}
+}
 </style>
 </head>
 <body>
@@ -1311,17 +1383,17 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
         <div class="score-card">
           <div class="score-num" data-count="36"></div>
           <div class="score-lbl">ACT</div>
-          <div class="score-bar"><div class="score-fill" style="width:100%"></div></div>
+          <div class="score-bar"><div class="score-fill" data-width="100"></div></div>
         </div>
         <div class="score-card">
           <div class="score-num" data-count="335"></div>
           <div class="score-lbl">GRE</div>
-          <div class="score-bar"><div class="score-fill" style="width:97%"></div></div>
+          <div class="score-bar"><div class="score-fill" data-width="97"></div></div>
         </div>
         <div class="score-card">
           <div class="score-num" style="font-size:.85rem;letter-spacing:.02em;">Under&nbsp;30</div>
           <div class="score-lbl">Forbes Scholar</div>
-          <div class="score-bar"><div class="score-fill" style="width:100%;background:var(--gold)"></div></div>
+          <div class="score-bar"><div class="score-fill" data-width="100" style="background:var(--gold)"></div></div>
         </div>
       </div>
     </div>
@@ -1657,12 +1729,12 @@ const barIO=new IntersectionObserver(es=>{
 },{threshold:.2});
 document.querySelectorAll('.stat-row').forEach(el=>barIO.observe(el));
 
-// Score bar fills
+// Score bar fills — animate from 0 to data-width on scroll
 const scoreIO=new IntersectionObserver(es=>{
   es.forEach(e=>{
     if(!e.isIntersecting)return;
     const fill=e.target.querySelector('.score-fill');
-    if(fill) setTimeout(()=>{ fill.style.width=fill.dataset.width||fill.style.width; },150);
+    if(fill) setTimeout(()=>{ fill.style.width=(fill.dataset.width||'80')+'%'; },200);
     scoreIO.unobserve(e.target);
   });
 },{threshold:.2});
@@ -1687,7 +1759,7 @@ const visibleIO=new IntersectionObserver(es=>{
     visibleIO.unobserve(e.target);
   });
 },{threshold:.15});
-document.querySelectorAll('.thesis-card,.edu-row,.stat-row,.hobby-card,.t-item').forEach(el=>visibleIO.observe(el));
+document.querySelectorAll('.thesis-card,.edu-row,.stat-row,.hobby-card,.t-item,.section-label').forEach(el=>visibleIO.observe(el));
 
 // Stat bars fallback — trigger immediately for anything already in view
 setTimeout(()=>{
