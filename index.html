@@ -75,27 +75,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
   position:relative;padding:5px 8px;white-space:nowrap;
   transition:color .2s var(--ease);
 }
-/* SVG circle injected by JS — centered on the link */
-.nav-links a svg.nav-circle{
+/* CSS circle — always perfectly sized to actual link width, no JS needed */
+.nav-links a::before{
+  content:'';
   position:absolute;
-  left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  width:calc(100% + 26px);height:calc(100% + 16px);
-  pointer-events:none;overflow:visible;
-}
-.nav-links a svg.nav-circle ellipse{
-  fill:none;stroke:var(--gold);stroke-width:1.4;
-  stroke-dasharray:300;stroke-dashoffset:300;
-  transition:stroke-dashoffset .55s cubic-bezier(.4,0,.2,1), opacity .2s;
+  inset:-5px -10px;
+  border:1.4px solid var(--gold);
+  border-radius:50px;
   opacity:0;
+  transform:scale(.82);
+  transition:opacity .3s var(--ease), transform .35s cubic-bezier(.34,1.2,.64,1);
+  pointer-events:none;
 }
 .nav-links a:hover{color:var(--gold);}
-.nav-links a:hover svg.nav-circle ellipse,
-.nav-links a.nav-active svg.nav-circle ellipse{
-  stroke-dashoffset:0;opacity:1;
-}
+.nav-links a:hover::before{opacity:1;transform:scale(1);}
 .nav-links a.nav-active{color:var(--gold);}
-.nav-links a.nav-active svg.nav-circle ellipse{opacity:.55;}
+.nav-links a.nav-active::before{opacity:.5;transform:scale(1);}
 .nav-right{text-align:right;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);display:flex;align-items:center;gap:8px;justify-content:flex-end;}
 .status-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;flex-shrink:0;animation:pulse-dot 2s ease-in-out infinite;}
 @keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.4)}50%{box-shadow:0 0 0 6px rgba(74,222,128,0)}}
@@ -1620,45 +1615,15 @@ setTimeout(()=>{
 const sectionIds=['hero','about','career','thesis','teaching','education','hobbies','contact'];
 const sDots=document.querySelectorAll('.s-dot');
 sDots.forEach((d,i)=>d.addEventListener('click',()=>document.getElementById(sectionIds[i])?.scrollIntoView({behavior:'smooth'})));
-// Inject hand-drawn SVG circle into every nav link
 const navLinks=document.querySelectorAll('.nav-links a');
-navLinks.forEach(a=>{
-  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.classList.add('nav-circle');
-  svg.setAttribute('viewBox','0 0 100 32');
-  svg.setAttribute('preserveAspectRatio','none');
-  const el=document.createElementNS('http://www.w3.org/2000/svg','ellipse');
-  el.setAttribute('cx','50');el.setAttribute('cy','16');
-  el.setAttribute('rx','46');el.setAttribute('ry','13');
-  // slightly wobbly path instead of perfect ellipse
-  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
-  path.setAttribute('d','M 8,16 C 6,6 18,2 50,2 C 82,2 95,6 94,16 C 93,26 80,30 50,30 C 20,30 7,26 8,16 Z');
-  path.setAttribute('fill','none');path.setAttribute('stroke','var(--gold)');
-  path.setAttribute('stroke-width','1.4');path.setAttribute('stroke-linecap','round');
-  path.style.strokeDasharray='240';path.style.strokeDashoffset='240';
-  path.style.transition='stroke-dashoffset .55s cubic-bezier(.4,0,.2,1), opacity .15s';
-  path.style.opacity='0';
-  svg.appendChild(path);
-  a.appendChild(svg);
-  a.addEventListener('mouseenter',()=>{path.style.opacity='1';path.style.strokeDashoffset='0';});
-  a.addEventListener('mouseleave',()=>{
-    if(!a.classList.contains('nav-active')){path.style.opacity='0';path.style.strokeDashoffset='240';}
-  });
-  a._navPath=path;
-});
 function updateDots(){
   let active=0;
   sectionIds.forEach((id,i)=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=innerHeight*.5)active=i;});
   sDots.forEach((d,i)=>d.classList.toggle('active',i===active));
-  // sync nav circle
+  // sync nav active state — CSS handles the circle appearance
   navLinks.forEach(a=>{
     const href=a.getAttribute('href')?.replace('#','');
-    const isActive=href===sectionIds[active];
-    a.classList.toggle('nav-active',isActive);
-    if(a._navPath){
-      if(isActive){a._navPath.style.opacity='.5';a._navPath.style.strokeDashoffset='0';}
-      else if(!a.matches(':hover')){a._navPath.style.opacity='0';a._navPath.style.strokeDashoffset='240';}
-    }
+    a.classList.toggle('nav-active',href===sectionIds[active]);
   });
 }
 updateDots(); // initial call; scroll handled below
