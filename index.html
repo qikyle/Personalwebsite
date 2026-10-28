@@ -404,6 +404,64 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
 .deal-tag:hover{border-color:rgba(221,184,74,.45);color:var(--gold);}
 .deal-tag.accent{border-color:rgba(126,184,255,.25);color:var(--electric);background:rgba(126,184,255,.04);}
 
+/* ── SELECTED COMPANIES ── */
+.deals-intro{
+  font-size:.78rem;color:var(--ink3);letter-spacing:.02em;
+  max-width:560px;margin:-24px 0 36px;line-height:1.7;
+}
+.deal-group{margin-bottom:38px;}
+.deal-group:last-child{margin-bottom:0;}
+.deal-group-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;}
+.deal-group-name{
+  font-family:var(--display);font-size:1.35rem;letter-spacing:.06em;
+  color:var(--ink);line-height:1;
+}
+.deal-group-meta{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);}
+.deal-group-head::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(to right,rgba(221,184,74,.3),transparent);
+}
+.deal-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
+.deal-chip{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;border-radius:8px;
+  border:1px solid rgba(221,184,74,.12);
+  background:rgba(221,184,74,.025);
+  text-decoration:none;position:relative;overflow:hidden;min-width:0;
+  transition:border-color .25s var(--ease),background .25s var(--ease),transform .3s var(--spring);
+}
+.deal-chip::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 20%,rgba(221,184,74,.1) 45%,rgba(126,184,255,.12) 55%,transparent 80%);
+  transform:translateX(-130%);transition:transform .6s var(--ease);
+}
+.deal-chip:hover::after{transform:translateX(130%);}
+.deal-chip:hover{
+  border-color:rgba(221,184,74,.4);
+  background:rgba(221,184,74,.06);
+  transform:translateY(-2px);
+}
+.deal-logo{
+  width:30px;height:30px;border-radius:7px;flex-shrink:0;
+  background:#fff;border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  transition:box-shadow .25s;
+}
+.deal-chip:hover .deal-logo{box-shadow:0 0 14px rgba(221,184,74,.3);}
+.deal-logo img{width:20px;height:20px;object-fit:contain;}
+.deal-mono{font-size:.6rem;font-weight:600;letter-spacing:.03em;color:#1b2233;}
+.deal-text{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.deal-name{
+  font-size:.86rem;color:var(--ink);letter-spacing:-.005em;line-height:1.3;
+  transition:color .2s var(--ease);
+}
+.deal-chip:hover .deal-name{color:var(--gold2);}
+.deal-stage{font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);}
+.deal-chip:hover .deal-stage{color:var(--gold);}
+.deal-confidential{border-style:dashed;}
+.deal-confidential .deal-logo{background:rgba(221,184,74,.07);border:1px dashed rgba(221,184,74,.3);}
+.deal-confidential .deal-mono{color:var(--gold);}
+
 /* ── THESIS — MANIFESTO ROWS ── */
 .thesis-grid{display:flex;flex-direction:column;}
 .thesis-card{
@@ -790,6 +848,9 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
 /* ══════════════════════════════════════════════
    MOBILE — 768 px and below
 ══════════════════════════════════════════════ */
+@media (max-width:980px){
+  .deal-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+}
 @media (max-width:768px){
   /* restore cursor on touch */
   body{cursor:auto;}
@@ -895,6 +956,9 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
 
 @media (max-width:480px){
   .career-item{grid-template-columns:1fr;}
+  .deal-grid{grid-template-columns:1fr 1fr;gap:8px;}
+  .deal-chip{padding:10px 12px;gap:10px;}
+  .deals-intro{margin:-12px 0 26px;}
   .career-item::before,.career-list::before{display:none;}
   .career-deals{padding-left:0;}
   .nav-right{display:none;}
@@ -1005,6 +1069,7 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
   <div class="s-dot" data-target="hero"></div>
   <div class="s-dot" data-target="about"></div>
   <div class="s-dot" data-target="career"></div>
+  <div class="s-dot" data-target="deals"></div>
   <div class="s-dot" data-target="thesis"></div>
   <div class="s-dot" data-target="teaching"></div>
   <div class="s-dot" data-target="education"></div>
@@ -1018,6 +1083,7 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#career">Work</a></li>
+    <li><a href="#deals">Companies</a></li>
     <li><a href="#thesis">Thesis</a></li>
     <li><a href="#teaching">Teaching</a></li>
     <li><a href="#education">Education</a></li>
@@ -1118,8 +1184,8 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
           <div class="stat-bar"><div class="stat-bar-fill" data-width="100"></div></div>
         </div>
         <div class="stat-row">
-          <div class="stat-num" data-count="40" data-prefix="$" data-suffix="M+" style="animation-delay:1.3s">$40M+</div>
-          <div class="stat-label">Deployed in &lt;6 months &mdash; Llama Ventures</div>
+          <div class="stat-num" data-count="60" data-prefix="$" data-suffix="M" style="animation-delay:1.3s">$60M</div>
+          <div class="stat-label">Deployed to date &mdash; Llama Ventures</div>
           <div class="stat-bar"><div class="stat-bar-fill" data-width="72"></div></div>
         </div>
         <div class="stat-row">
@@ -1144,7 +1210,7 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
                onerror="this.parentNode.innerHTML='<span style=&quot;font-size:20px;line-height:1&quot;>🦙</span>'"/>
         </div>
         <a class="career-co" href="https://llamaventures.vc" target="_blank" rel="noopener">Llama Ventures</a>
-        <div class="career-role">Investor &mdash; AI &amp; Enterprise Software</div>
+        <div class="career-role">Principal, AI &amp; Enterprise Software</div>
         <div class="career-note">Aug 2025 &mdash; Present</div>
         <div class="career-deals">
           <span class="deal-tag accent">Seed &amp; Series A</span>
@@ -1183,7 +1249,7 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
         <div class="career-note">Apr 2023 &mdash; Sep 2023</div>
         <div class="career-deals">
           <span class="deal-tag">ABA Therapy Platform</span>
-          <span class="deal-tag">Series B &middot; Scaled Ops</span>
+          <span class="deal-tag">$55M Series A &middot; Scaled Ops</span>
           <span class="deal-tag">GTM &amp; Fundraising</span>
         </div>
       </div>
@@ -1204,6 +1270,92 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- DEALS -->
+  <section class="section" id="deals">
+    <div class="section-label" data-scramble="Selected Companies">Selected Companies</div>
+    <div class="deals-intro">
+      A few of the companies I have backed or worked on at Llama Ventures.
+    </div>
+
+    <div class="deal-group">
+      <div class="deal-group-head">
+        <span class="deal-group-name">FRONTIER LABS</span>
+        <span class="deal-group-meta">AI Research</span>
+      </div>
+      <div class="deal-grid">
+        <a class="deal-chip" href="https://openai.com" target="_blank" rel="noopener">
+          <span class="deal-logo"><img src="https://www.google.com/s2/favicons?domain=openai.com&sz=128" alt="" loading="lazy" decoding="async" onerror="this.parentNode.innerHTML='<span class=&quot;deal-mono&quot;>OA</span>'"/></span>
+          <span class="deal-text">
+            <span class="deal-name">OpenAI</span>
+          </span>
+        </a>
+        <a class="deal-chip" href="https://anthropic.com" target="_blank" rel="noopener">
+          <span class="deal-logo"><img src="https://www.google.com/s2/favicons?domain=anthropic.com&sz=128" alt="" loading="lazy" decoding="async" onerror="this.parentNode.innerHTML='<span class=&quot;deal-mono&quot;>AN</span>'"/></span>
+          <span class="deal-text">
+            <span class="deal-name">Anthropic</span>
+          </span>
+        </a>
+        <a class="deal-chip" href="https://thinkingmachines.ai" target="_blank" rel="noopener">
+          <span class="deal-logo"><img src="https://www.google.com/s2/favicons?domain=thinkingmachines.ai&sz=128" alt="" loading="lazy" decoding="async" onerror="this.parentNode.innerHTML='<span class=&quot;deal-mono&quot;>TM</span>'"/></span>
+          <span class="deal-text">
+            <span class="deal-name">Thinking Machines</span>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <div class="deal-group">
+      <div class="deal-group-head">
+        <span class="deal-group-name">EARLY STAGE</span>
+        <span class="deal-group-meta">Pre-Seed · Seed · Series A</span>
+      </div>
+      <div class="deal-grid">
+        <a class="deal-chip" href="https://palona.ai" target="_blank" rel="noopener">
+          <span class="deal-logo"><img src="https://www.google.com/s2/favicons?domain=palona.ai&sz=128" alt="" loading="lazy" decoding="async" onerror="this.parentNode.innerHTML='<span class=&quot;deal-mono&quot;>PA</span>'"/></span>
+          <span class="deal-text">
+            <span class="deal-name">Palona AI</span>
+          </span>
+        </a>
+        <a class="deal-chip" href="https://ditto.ai" target="_blank" rel="noopener">
+          <span class="deal-logo"><img src="https://www.google.com/s2/favicons?domain=ditto.ai&sz=128" alt="" loading="lazy" decoding="async" onerror="this.parentNode.innerHTML='<span class=&quot;deal-mono&quot;>DI</span>'"/></span>
+          <span class="deal-text">
+            <span class="deal-name">Ditto AI</span>
+          </span>
+        </a>
+        <a class="deal-chip" href="https://sentrinox.com" target="_blank" rel="noopener">
+          <span class="deal-logo"><img src="https://www.google.com/s2/favicons?domain=sentrinox.com&sz=128" alt="" loading="lazy" decoding="async" onerror="this.parentNode.innerHTML='<span class=&quot;deal-mono&quot;>SX</span>'"/></span>
+          <span class="deal-text">
+            <span class="deal-name">Sentrinox</span>
+          </span>
+        </a>
+        <a class="deal-chip" href="https://insforge.dev" target="_blank" rel="noopener">
+          <span class="deal-logo"><img src="https://www.google.com/s2/favicons?domain=insforge.dev&sz=128" alt="" loading="lazy" decoding="async" onerror="this.parentNode.innerHTML='<span class=&quot;deal-mono&quot;>IF</span>'"/></span>
+          <span class="deal-text">
+            <span class="deal-name">Insforge</span>
+          </span>
+        </a>
+        <a class="deal-chip" href="https://sprouts.ai" target="_blank" rel="noopener">
+          <span class="deal-logo"><img src="https://www.google.com/s2/favicons?domain=sprouts.ai&sz=128" alt="" loading="lazy" decoding="async" onerror="this.parentNode.innerHTML='<span class=&quot;deal-mono&quot;>SP</span>'"/></span>
+          <span class="deal-text">
+            <span class="deal-name">Sprouts AI</span>
+          </span>
+        </a>
+        <div class="deal-chip deal-confidential">
+          <span class="deal-logo"><span class="deal-mono">●</span></span>
+          <span class="deal-text">
+            <span class="deal-name">Confidential</span>
+          </span>
+        </div>
+        <div class="deal-chip">
+          <span class="deal-logo"><span class="deal-mono">PH</span></span>
+          <span class="deal-text">
+            <span class="deal-name">Photon</span>
+          </span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1776,7 +1928,7 @@ setTimeout(()=>{
 /* ══════════════════════════════════════════════
    SECTION DOTS
 ══════════════════════════════════════════════ */
-const sectionIds=['hero','about','career','thesis','teaching','education','hobbies','contact'];
+const sectionIds=['hero','about','career','deals','thesis','teaching','education','hobbies','contact'];
 const sDots=document.querySelectorAll('.s-dot');
 // dot click handlers defined below (with nav sync + immediate active)
 const navLinks=document.querySelectorAll('.nav-links a');
