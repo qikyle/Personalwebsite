@@ -462,6 +462,54 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:grid;grid-template-c
 .deal-confidential .deal-logo{background:rgba(221,184,74,.07);border:1px dashed rgba(221,184,74,.3);}
 .deal-confidential .deal-mono{color:var(--gold);}
 
+/* ── WRITING ── */
+.writing-list{display:flex;flex-direction:column;}
+.writing-item{
+  display:grid;
+  grid-template-columns:120px 1fr 150px;
+  gap:4px 22px;
+  padding:22px 0;
+  border-top:1px solid rgba(221,184,74,.08);
+  position:relative;overflow:hidden;text-decoration:none;
+  transition:opacity .35s var(--ease),filter .35s var(--ease),background .3s var(--ease);
+}
+.writing-item:last-child{border-bottom:1px solid rgba(221,184,74,.08);}
+.writing-date{
+  font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink3);align-self:start;padding-top:5px;
+}
+.writing-title{
+  font-size:clamp(16px,1.45vw,21px);font-weight:400;color:var(--ink);
+  letter-spacing:-.01em;line-height:1.3;position:relative;display:inline;
+  background-image:linear-gradient(var(--gold2),var(--gold2));
+  background-size:0% 1px;background-position:0 100%;background-repeat:no-repeat;
+  transition:color .2s var(--ease),background-size .45s var(--ease);
+}
+.writing-item:hover .writing-title{color:var(--gold2);background-size:100% 1px;}
+.writing-venue{
+  grid-column:3;grid-row:1;align-self:start;padding-top:6px;
+  font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink3);text-align:right;
+  transition:color .2s var(--ease);
+}
+.writing-item:hover .writing-venue{color:var(--gold);}
+.writing-desc{
+  grid-column:2 / 3;
+  font-size:.8rem;line-height:1.7;color:var(--ink2);
+  max-width:68ch;margin-top:6px;
+}
+.writing-item::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 20%,rgba(221,184,74,.09) 35%,rgba(126,184,255,.12) 50%,rgba(200,128,106,.09) 65%,transparent 80%);
+  transform:translateX(-130%);transition:transform .65s var(--ease);
+}
+.writing-item:hover::after{transform:translateX(130%);}
+.writing-item:hover{
+  background:linear-gradient(90deg,rgba(221,184,74,.06) 0%,transparent 70%);
+  border-radius:4px;
+}
+.writing-list:has(.writing-item:hover) .writing-item:not(:hover){opacity:.32;filter:saturate(.2);}
+
 /* ── THESIS — MANIFESTO ROWS ── */
 .thesis-grid{display:flex;flex-direction:column;}
 .thesis-card{
@@ -956,6 +1004,10 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
 
 @media (max-width:480px){
   .career-item{grid-template-columns:1fr;}
+  .writing-item{grid-template-columns:1fr;gap:8px 0;}
+  .writing-date{padding-top:0;}
+  .writing-venue{grid-column:1;grid-row:auto;text-align:left;padding-top:0;}
+  .writing-desc{grid-column:1;}
   .deal-grid{grid-template-columns:1fr 1fr;gap:8px;}
   .deal-chip{padding:10px 12px;gap:10px;}
   .deals-intro{margin:-12px 0 26px;}
@@ -1071,6 +1123,7 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
   <div class="s-dot" data-target="career"></div>
   <div class="s-dot" data-target="deals"></div>
   <div class="s-dot" data-target="thesis"></div>
+  <div class="s-dot" data-target="writing"></div>
   <div class="s-dot" data-target="teaching"></div>
   <div class="s-dot" data-target="education"></div>
   <div class="s-dot" data-target="hobbies"></div>
@@ -1085,6 +1138,7 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
     <li><a href="#career">Work</a></li>
     <li><a href="#deals">Companies</a></li>
     <li><a href="#thesis">Thesis</a></li>
+    <li><a href="#writing">Writing</a></li>
     <li><a href="#teaching">Teaching</a></li>
     <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -1418,6 +1472,34 @@ footer span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:
           <div class="thesis-body">Agents doing real work inside a real workflow. Products where the agent is the service itself, not a feature bolted onto an existing one.</div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- WRITING -->
+  <section class="section" id="writing">
+    <div class="section-label" data-scramble="Writing">Writing</div>
+    <div class="writing-list">
+      <a class="writing-item" href="https://www.techinasia.com/phps-aifound-flaws-expose-bigger-gap-guards-ai-agents" target="_blank" rel="noopener">
+        <div class="writing-date">Oct 2026</div>
+        <div><span class="writing-title">PHP&rsquo;s AI-found flaws expose a bigger gap: Who guards AI agents?</span></div>
+        <div class="writing-venue">Tech in Asia</div>
+        <div class="writing-desc">AI found PHP&rsquo;s decade-old flaws in two days. Patching at that speed means letting agents change production systems on their own, and the layer that holds an agent inside a boundary while it runs is the one nobody regulates or sells.</div>
+      </a>
+
+      <a class="writing-item" href="https://www.llamaventures.vc/insights/the-real-money-in-ai-isnt-in-the-models" target="_blank" rel="noopener">
+        <div class="writing-date">Jul 2026</div>
+        <div><span class="writing-title">The real money in AI isn&rsquo;t in the models</span></div>
+        <div class="writing-venue">Llama Ventures</div>
+        <div class="writing-desc">As AI models commoditize, the reliable money is moving to the infrastructure layer that serves them, a market already worth US$118 billion.</div>
+      </a>
+
+      <a class="writing-item" href="https://www.techinasia.com/meta-muse-finally" target="_blank" rel="noopener">
+        <div class="writing-date">May 2026</div>
+        <div><span class="writing-title">Meta Muse, Finally</span></div>
+        <div class="writing-venue">Tech in Asia</div>
+        <div class="writing-desc">After years of watching the AI race from the sidelines, Meta has entered with Muse. What its arrival means for the structure of the market, and for early-stage founders building alongside the hyperscalers.</div>
+      </a>
+
     </div>
   </section>
 
@@ -1913,7 +1995,7 @@ setTimeout(()=>{
 /* ══════════════════════════════════════════════
    SECTION DOTS
 ══════════════════════════════════════════════ */
-const sectionIds=['hero','about','career','deals','thesis','teaching','education','hobbies','contact'];
+const sectionIds=['hero','about','career','deals','thesis','writing','teaching','education','hobbies','contact'];
 const sDots=document.querySelectorAll('.s-dot');
 // dot click handlers defined below (with nav sync + immediate active)
 const navLinks=document.querySelectorAll('.nav-links a');
